@@ -1,0 +1,218 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width:100%">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">e-Crawler Timesheet</h1>
+
+                <div class="btn-group btn-group-sm" role="group" aria-label="Timesheet Tabs">
+                    <button type="button" class="btn btn-outline-primary"
+                        [ngClass]="{'active': step === 'My Timesheets'}" (click)="step='My Timesheets'">My
+                        Timesheets</button>
+                    <button type="button" class="btn btn-outline-primary"
+                        [ngClass]="{'active': step === 'Requested Timesheets'}"
+                        (click)="step='Requested Timesheets'">Requested Timesheets</button>
+                </div>
+                <button type="button" class="btn btn-success btn-action" (click)="open(content)">
+                    <i class="fas fa-plus"></i> Add Timesheet
+                </button>
+            </div>
+
+            <div *ngIf="step === 'My Timesheets'">
+                <table class="table table-striped">
+                    <thead style="background-color: #88b8f2;">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Hours</th>
+                            <th scope="col">Work Details</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                            <th scope="col">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ts of timesheets; let i = index">
+                            
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ ts.Date }}</td>
+                            <td>{{ ts.Hours }}</td>
+                            <td>{{ ts.WorkDetails }}</td>
+                            <td>{{ ts.Status }}</td>
+                            
+                                <td>
+                                    <i *ngIf="ts.Status !='Yogesh'" class="bi bi-pencil-fill" (click)="(ts._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                                    <i *ngIf="ts.Status !='Yogesh'" class="bi bi-trash3-fill" (click)="(ts._id)" style="cursor: pointer; color: red;font-size: 20px;"></i>
+                                </td>
+                            
+                            <td>
+                                <i class="bi bi-eye-fill" (click)="ReviewTimesheet(timesheetViewModal, ts._id)"
+                                style="cursor: pointer; color: red;font-size: 20px;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div *ngIf="step === 'Requested Timesheets'">
+                <table class="table table-striped"  >
+                    <thead style="background-color: #88b8f2;">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Hours</th>
+                            <th scope="col">Work Details</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"></th>
+                            <th scope="col">View</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ts of reqtimesheets; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ ts.EmployeeId }}</td>
+                            <td>{{ ts.Date }}</td>
+                            <td>{{ ts.Hours }}</td>
+                            <td>{{ ts.WorkDetails }}</td>
+                            <td>{{ ts.Status }}</td>
+                            <td>
+                                <i *ngIf="ts.Status === 'New'" class="bi bi-yelp"
+                                    (click)="ReviewTimesheet(timesheetReviewModal, ts)" style="cursor: pointer;"></i>
+                            </td>
+                            <td>
+                                <i class="bi bi-eye-fill" (click)="ReviewTimesheet(timesheetViewModal, ts)"
+                                    style="cursor: pointer; color: red;font-size: 20px;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal Templates -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ isEditMode ? 'Edit Timesheet' : 'Add Timesheet' }}</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div>
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" [(ngModel)]="timesheet.Date">
+            </div>
+            <div>
+                <label class="form-label">Hours</label>
+                <input type="number" class="form-control" [(ngModel)]="timesheet.Hours">
+            </div>
+            <div>
+                <label class="form-label">Work Details</label>
+                <input type="text" class="form-control" [(ngModel)]="timesheet.WorkDetails">
+            </div>
+            <div>
+                <label class="form-label">Reason</label>
+                <input type="text" class="form-control" [(ngModel)]="timesheet.Reason">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+</ng-template>
+<ng-template #timesheetReviewModal let-modal>
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-header ">
+            <h5 class="modal-title">
+                {{ isReviewMode ? 'Review Employee Timesheet' : 'Review Employee Timesheet' }}
+            </h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row g-3">
+                <div class="modal-body">
+                    <p><strong>Employee ID:</strong> {{ timesheet?.EmployeeId }}</p>
+                    <p><strong>Date:</strong> {{ timesheet?.Date | date }}</p>
+                    <p><strong>Work Details:</strong> {{ timesheet?.WorkDetails }}</p>
+                    <p><strong>Hours:</strong> {{ timesheet?.Hours }}</p>
+                    <p><strong>Reason:</strong> {{ timesheet?.Reason }}</p>
+                    <p><strong>Status:</strong> {{ timesheet?.Status }}</p>
+
+                    <!-- Input for Approve/Reject Reason -->
+                    <div class="form-group">
+                        <label>Enter Reason:</label>
+                        <textarea class="form-control" [(ngModel)]="review"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" (click)="approveTimesheet()">Approve</button>
+                    <button class="btn btn-danger" (click)="rejectTimesheet()">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #timesheetViewModal let-modal>
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                View Employee Timesheet
+            </h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row g-3">
+                <div class="modal-body">
+                    <p><strong>Employee ID:</strong> {{ timesheet?.EmployeeId }}</p>
+                    <p><strong>Date:</strong> {{ timesheet?.Date | date }}</p>
+                    <p><strong>Work Details:</strong> {{ timesheet?.WorkDetails }}</p>
+                    <p><strong>Hours:</strong> {{ timesheet?.Hours }}</p>
+                    <p><strong>Reason:</strong> {{ timesheet?.Reason }}</p>
+                    <p><strong>Status:</strong> {{ timesheet?.Status }}</p>
+                    <p *ngIf="timesheet?.Status=='Approved'"><strong>Approved By:</strong> {{ timesheet?.ApprovedBy }}
+                    </p>
+                    <p *ngIf="timesheet?.Status=='Approved'"><strong>Approved Date:</strong> {{
+                        timesheet?.ApprovedDate | date }}</p>
+                    <p *ngIf="timesheet?.Status=='Approved'"><strong>Approved Reason:</strong> {{
+                        timesheet?.ApprovedReason }}</p>
+                    <p *ngIf="timesheet?.Status=='Rejected'"><strong>Rejected By:</strong> {{ timesheet?.RejectedBy }}
+                    </p>
+                    <p *ngIf="timesheet?.Status=='Rejected'"><strong>Rejected Date:</strong> {{
+                        timesheet?.RejectedDate | date }}</p>
+                    <p *ngIf="timesheet?.Status=='Rejected'"><strong>Rejected Reason:</strong> {{
+                        timesheet?.RejectedReason }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #timesheetDeleteModal let-modal>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to delete this timesheet record?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+                    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

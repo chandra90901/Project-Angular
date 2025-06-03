@@ -1,0 +1,585 @@
+<div class="container-fluid px-0">
+     
+    <div class="row">
+        <!-- Sidebar -->
+        <app-admin-layout pageHeader="Employee Form"></app-admin-layout>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"
+            style="width: 200%; min-height: 160vh; overflow-y: auto; margin-left: -40px;">
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                    <div class="d-flex justify-content-center flex-grow-1">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Information'}"
+                                (click)="step='Information'">Information</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Address'}" (click)="step='Address'">Address</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Bank'}" (click)="step='Bank'"> Bank </button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Access'}" (click)="step='Access'">Access</button>
+                        </div>
+                    </div>
+                    <div class="ms-auto d-flex">
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="ClearEmployeeForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewEmployees()">
+                            <i class="fas fa-plus"></i> View Employee List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveEmployee()" [disabled]="employFilleeForm.invalid">
+                            <i class="fas fa-plus"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <form [formGroup]="employFilleeForm" (ngSubmit)="SaveEmployee()">
+                <div *ngIf="step==='Information'">
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select formControlName="Title" class="form-select form-select-sm" id="ddlTitle">
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                                <label for="ddlTitle">Title</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input formControlName="EmployeeName" type="text"
+                                    class="form-control form-control-sm" id="txtEmployeeName"
+                                    placeholder="Employee Name *" name="EmployeeName">
+                                <label for="txtEmployeeName">Employee Name *</label>
+                                <div *ngIf="employFilleeForm.get('EmployeeName')?.invalid && employFilleeForm.get('EmployeeName')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('EmployeeName')?.errors?.['required']">EmployeeName is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="EmployeeStatusId" class="form-select form-select-sm"
+                                    id="ddlEmployeeStatusId" aria-label="Default select example">
+                                    <option *ngFor="let es of employeeStatusMaster" [value]="es.Id"> {{ es.Data }}
+                                    </option>
+                                </select>
+                                <label for="ddlEmployeeStatuesId">Employee Status Id</label>
+                                  <div *ngIf="employFilleeForm.get('EmployeeStatusId')?.invalid && employFilleeForm.get('EmployeeStatusId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('EmployeeStatusId')?.errors?.['required']">EmployeeStatus required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="OfficeEmail"
+                                    class="form-control form-control-sm" id="txtOfficeEmail"
+                                    placeholder="Office Email *" name="OfficeEmail">
+                                <label for="txtOfficeEmail">Office Email *</label>
+                                 <div *ngIf="employFilleeForm.get('OfficeEmail')?.invalid && employFilleeForm.get('OfficeEmail')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('OfficeEmail')?.errors?.['required']">Mail required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="OfficeMobileNumber"
+                                    class="form-control form-control-sm" id="txtOfficeMobileNumber"
+                                    placeholder="Office Mobile Number">
+                                <label for="txtOfficeMobileNumber">Office Mobile Number</label>
+                                  <div *ngIf="employFilleeForm.get('OfficeMobileNumber')?.invalid && employFilleeForm.get('OfficeMobileNumber')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('OfficeMobileNumber')?.errors?.['required']">Number required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="EmployeeId"
+                                    class="form-control form-control-sm" id="txtEmployeeID" placeholder="EmployeeId*">
+                                <label for="txtEmployeeID">Employee ID*</label>
+                                 <div *ngIf="employFilleeForm.get('EmployeeId')?.invalid && employFilleeForm.get('EmployeeId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('EmployeeId')?.errors?.['required']">EmployeeId required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="PersonalMobileNumber"
+                                    class="form-control form-control-sm" id="txtPersonalMobileNumber"
+                                    placeholder="Personal Mobile Number">
+                                <label for="txtPersonalMobileNumber">Personal Mobile Number</label>
+                                  <div *ngIf="employFilleeForm.get('PersonalMobileNumber')?.invalid && employFilleeForm.get('PersonalMobileNumber')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('PersonalMobileNumber')?.errors?.['required']">Personal Number required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="PersonalEmail"
+                                    class="form-control form-control-sm" id="txtPersonalEmail"
+                                    placeholder="Personal Email">
+                                <label for="txtPersonalEmail">Personal Email</label>
+                                 <div *ngIf="employFilleeForm.get('PersonalEmail')?.invalid && employFilleeForm.get('PersonalEmail')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('PersonalEmail')?.errors?.['required']">Personal Mail required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" formControlName="DateOfBirth"
+                                    class="form-control form-control-sm" id="txtDateOfBirth"
+                                    placeholder="Date of Birth(DD-MM-YYYY) *">
+                                <label for="txtDateOfBirth">Date of Birth(DD-MM-YYYY) *</label>
+                                 <div *ngIf="employFilleeForm.get('DateOfBirth')?.invalid && employFilleeForm.get('DateOfBirth')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('DateOfBirth')?.errors?.['required']">DOB required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="DesignationId" class="form-select form-select-sm"
+                                    id="txtDesignationId" aria-label="Default select example">
+                                    <option *ngFor="let dm of designationMaster" [value]="dm.Id">
+                                        {{dm.Data}}</option>
+                                </select>
+                                <label for="txtDesignationId">Designation Id</label>
+                                <div *ngIf="employFilleeForm.get('DesignationId')?.invalid && employFilleeForm.get('DesignationId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('DesignationId')?.errors?.['required']">DesignationId required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="DepartmentId" class="form-select form-select-sm"
+                                    id="txtDepartmenteId" aria-label="Default select example">
+                                    <option *ngFor="let dm of departmentMaster" [value]="dm.Id">
+                                        {{dm.Data}}</option>
+                                </select>
+                                <label for="txtDepartmentId">Department Id</label>
+                                 <div *ngIf="employFilleeForm.get('DepartmentId')?.invalid && employFilleeForm.get('DepartmentId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('DepartmentId')?.errors?.['required']">DepartmentId required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="ReportingTo" class="form-select form-select-sm"
+                                    id="ddlReportingToId" aria-label="Default select example">
+                                    <option *ngFor="let rt of reportingEmp" [value]="rt.Id">
+                                        {{rt.EmployeeName}}</option>
+                                </select>
+                                <label for="ddlReportingToId">Reporting To</label>
+                                <div *ngIf="employFilleeForm.get('ReportingTo')?.invalid && employFilleeForm.get('ReportingTo')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('ReportingTo')?.errors?.['required']">ReportingTo required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="FatherName"
+                                    class="form-control form-control-sm" id="txtFathersName" placeholder="FathersName">
+                                <label for="txtFathersName">Father Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="EmployementTypeId" class="form-select form-select-sm"
+                                    id="ddlEmployementTypeId" aria-label="Default select example">
+                                    <option *ngFor="let et of employementTypeMaster" [value]="et.Id">{{et.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlEmployementTypeId">Employement Type</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select formControlName="GenderId" class="form-select form-select-sm"
+                                    id="ddlGenderId">
+                                    <option *ngFor="let gr of genderMaster" [value]="gr.Id">{{gr.Data}}</option>
+                                </select>
+                                <label for="ddlGenderId">Gender</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select formControlName="MaritalStatusId" class="form-select form-select-sm"
+                                    id="ddlMaritalStatusId" aria-label="Default select example">
+                                    <option *ngFor="let ms of maritalStatuesMaster" [value]="ms.Id">{{ms.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlMaritalStatusId">Marital StatusId</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" formControlName="Aadhar" class="form-control form-control-sm"
+                                    id="txtAadhar" placeholder="Aadhar">
+                                <label for="txtAadhar">Aadhar</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" formControlName="PAN" class="form-control form-control-sm"
+                                    id="txtPAN" placeholder="PAN">
+                                <label for="txtPAN">PAN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select formControlName="ReligionId" class="form-select form-select-sm"
+                                    id="txtReligionId" aria-label="Default select example">
+                                    <option *ngFor="let rm of religionMaster" [value]="rm.Id">{{rm.Data}}
+                                    </option>
+                                </select>
+                                <label for="txtReligionId">Religion</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select formControlName="BloodGroupId" class="form-select form-select-sm"
+                                    id="txtBloodGroupId" aria-label="Default select example">
+                                    <option *ngFor="let bg of bloodGroupMaster" [value]="bg.Id">{{bg.Data}}
+                                    </option>
+                                </select>
+                                <label for="txtBloodGroupId">Blood Group</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="EmergencyContact"
+                                    class="form-control form-control-sm" id="txtEmergencyContact"
+                                    placeholder="EmergencyContact">
+                                <label for="txtEmergencyContact">Emergency Contact</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select formControlName="BranchId" class="form-select form-select-sm"
+                                    id="ddlBranchId" aria-label="Default select example">
+                                    <option *ngFor="let br of branchMaster" [value]="br.Id">{{br.Data}}</option>
+                                </select>
+                                <label for="ddlBranchId">Branch</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" formControlName="UAN" class="form-control form-control-sm"
+                                    id="txtUAN" placeholder="UAN">
+                                <label for="txtUAN">UAN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" formControlName="ESI" class="form-control form-control-sm"
+                                    id="txtESI" placeholder="ESI">
+                                <label for="txtESI">ESI</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" formControlName="DateOfJoining"
+                                    class="form-control form-control-sm" id="txtDateOfJoining"
+                                    placeholder="DateOfJoining">
+                                <label for="txtDateOfJoining">Date of Joining</label>
+                                 <div *ngIf="employFilleeForm.get('DateOfJoining')?.invalid && employFilleeForm.get('DateOfJoining')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('DateOfJoining')?.errors?.['required']">DateOfJoining required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="time" formControlName="CheckInTime"
+                                    class="form-control form-control-sm" id="CheckInTime" placeholder="CheckInTime">
+                                <label for="txtCheckInTime">Checkin-Time</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="time" formControlName="CheckOutTime"
+                                    class="form-control form-control-sm" id="txtCheckOutTime"
+                                    placeholder="CheckOutTime">
+                                <label for="txtCheckOutTime">Checkout-Time</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" formControlName="DateOfExit"
+                                    class="form-control form-control-sm" id="txtDateOfExit" placeholder="DateOfExit">
+                                <label for="txtDateOfExit">Date of Exit</label>
+                                <div *ngIf="employFilleeForm.get('DateOfExit')?.invalid && employFilleeForm.get('DateOfExit')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('DateOfExit')?.errors?.['required']">DateOfJoining required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step === 'Address' ">
+                    <div class="container mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': address_step === 'Present Address'}"
+                                    (click)="address_step = 'Present Address'">Present Address</button>
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': address_step === 'Permanent Address'}"
+                                    (click)="address_step = 'Permanent Address'">Permanent Address</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="sameAsPresent"
+                            formControlName="IsPermanentSameAsPresent" (change)="onSameAsPresentChange()" />
+                        <label class="form-check-label" for="sameAsPresent">
+                            Permanent address is same as Present address
+                        </label>
+                    </div>
+                    <div *ngIf=" address_step === 'Present Address' && !IsPermanentSameAsPresent">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtPresentAddressLine1"
+                                        formControlName="PresentAddressLine1" placeholder="Present Address Line1">
+                                    <label for="txtPresentAddressLine1">Present Address Line1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtPresentAddressLine2"
+                                       formControlName="PresentAddressLine2" placeholder="Present Address Line2">
+                                    <label for="txtPresentAddressLine2">Present Address Line2</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtCity"
+                                        formControlName="PresentAddressCity" placeholder=" City"> <label
+                                        for="txtCity">City</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtPincode"
+                                        formControlName="PresentAddressPincode" placeholder="Pincode">
+                                    <label for="txtPincode">Pincode</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlState"
+                                        formControlName="PresentAddressStateId"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeStateMaster" [value]="es.Id">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlState">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlCountry"
+                                        formControlName="PresentAddressCountryId"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeCountryMaster" [value]="es.Id">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlCountry">Country</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step === 'Address' && address_step === 'Permanent Address' && !IsPermanentSameAsPresent">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtAddressLine1"
+                                    formControlName="PermanentAddressLine1" placeholder="Address Line 1">
+                                <label for="txtAddressLine1">Permanent Address Line 1</label>
+                                  <div *ngIf="employFilleeForm.get('PermanentAddressLine1')?.invalid && employFilleeForm.get('PermanentAddressLine1')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('PermanentAddressLine1')?.errors?.['required']">Address required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtAddressLine2"
+                                    formControlName="PermanentAddressLine2" placeholder="Address Line 2">
+                                <label for="txtAddressLine2">Permanent Address Line 2</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtCity"
+                                    formControlName="PermanentAddressCity" placeholder="City">
+                                <label for="txtCity">City</label>
+                                 <div *ngIf="employFilleeForm.get('PermanentAddressCity')?.invalid && employFilleeForm.get('PermanentAddressCity')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('PermanentAddressCity')?.errors?.['required']">City required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtPincode"
+                                    formControlName="PermanentAddressPincode" placeholder=" Pincode">
+                                <label for="txtPincode">Pincode</label>
+                                   <div *ngIf="employFilleeForm.get('PermanentAddressPincode')?.invalid && employFilleeForm.get('PermanentAddressPincode')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('PermanentAddressPincode')?.errors?.['required']">City required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlState"
+                                    formControlName="PermanentAddressStateId" aria-label="Default select example">
+                                    <option *ngFor="let es of employeeStateMaster" [value]="es.Id">{{es.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlState">State</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlCountry"
+                                    formControlName="PermanentAddressCountryId"
+                                    aria-label="Default select example">
+                                    <option *ngFor="let es of employeeCountryMaster" [value]="es.Id">{{es.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlCountry">Country</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="step==='Bank'">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtaccountNumber"
+                                    formControlName="BankAccountNumber" placeholder=" Account Number">
+                                <label for="txtaccountNumber">Account Number</label>
+                                <div *ngIf="employFilleeForm.get('BankAccountNumber')?.invalid && employFilleeForm.get('BankAccountNumber')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('BankAccountNumber')?.errors?.['required']">AccountNumber required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" formControlName="BankAccountName"
+                                    class="form-control form-control-sm" id="txtaccountName" placeholder="Account Name">
+                                <label for="txtaccountName">Account Name</label>
+                                <div *ngIf="employFilleeForm.get('BankAccountName')?.invalid && employFilleeForm.get('BankAccountName')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('BankAccountName')?.errors?.['required']">AccountName required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlbankName"
+                                    formControlName="BankId" aria-label="Default select example">
+                                    <option *ngFor="let bnm of bankNameMaster" [value]="bnm.Id">{{bnm.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlbankName">Bank Name</label>
+                                <div *ngIf="employFilleeForm.get('BankId')?.invalid && employFilleeForm.get('BankId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('BankId')?.errors?.['required']">BankId required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtisfcCode"
+                                    formControlName="BankIfscCode" placeholder="IFSC Code" name="BankIfscCode">
+                                <label for=" txtisfcCode">IFSC Code</label>
+                                <div *ngIf="employFilleeForm.get('BankIfscCode')?.invalid && employFilleeForm.get('BankIfscCode')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('BankIfscCode')?.errors?.['required']">Bank IFSC Code required*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlaccountType"
+                                    formControlName="BankAccountTypeId" aria-label="Default select example">
+                                    <option *ngFor="let at of accountTypeMaster" [value]="at.Id">{{at.Data}}
+                                    </option>
+                                </select>
+                                <label for="ddlaccountType">Account Type</label>
+                                <div *ngIf="employFilleeForm.get('BankAccountTypeId')?.invalid && employFilleeForm.get('BankAccountTypeId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="employFilleeForm.get('BankAccountTypeId')?.errors?.['required']">BankAccountType required*</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtbranchName"
+                                    formControlName="BankBrachName" placeholder="Branch Name">
+                                <label for="txtbranchName">Branch Name</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step==='Access'">
+                    Access
+                </div>
+            </form>
+            </div>
+            
+        </main>
+    
+    </div>
+
+</div>

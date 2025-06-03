@@ -1,0 +1,138 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5>New Offer Letter</h5>
+                    <div>
+                        <button type="button" class="btn btn-outline-danger btn-action me-2" (click)="ClearofferletterForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-action me-2" (click)="ViewOfferletters()">
+                            <i class="fas fa-eye"></i> View OfferLetter List
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-action" (click)="SaveOfferletter()">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Row 1 -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" [(ngModel)]="offerletter.CandidateName"
+                                class="form-control form-control-sm" id="txtCandidateName" placeholder="Candidate Name">
+                            <label for="txtCandidateName">Candidate Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" [(ngModel)]="offerletter.Date"
+                                class="form-control form-control-sm" id="txtDate" placeholder="Date">
+                            <label for="txtDate">Date</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select [(ngModel)]="offerletter.JobTitle" class="form-control form-control-sm" id="txtJobTitle">
+                                <option value="" disabled selected>Select Job Title</option>
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="Frontend Developer">Frontend Developer</option>
+                                <option value="Backend Developer">Backend Developer</option>
+                                <option value="Full Stack Developer">Full Stack Developer</option>
+                                <option value="Data Analyst">Data Analyst</option>
+                                <option value="DevOps Engineer">DevOps Engineer</option>
+                            </select>
+                            <label for="txtJobTitle">Job Title</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" [(ngModel)]="offerletter.Department"
+                                class="form-control form-control-sm" id="txtDepartment" placeholder="Department">
+                            <label for="txtDepartment">Department</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" [(ngModel)]="offerletter.ReportingManage"
+                                class="form-control form-control-sm" id="txtReportingManage" placeholder="Reporting Manager">
+                            <label for="txtReportingManage">Reporting Manager</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- <div class="form-floating">
+                            <input type="date" [(ngModel)]="offerletter.StartDate"
+                                class="form-control form-control-sm" id="txtStartDate" placeholder="Start Date">
+                            <label for="txtStartDate">Start Date</label>
+                        </div> -->
+                    </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select [(ngModel)]="offerletter.EmploymentType" class="form-control form-control-sm" id="txtEmploymentType">
+                                <option value="" disabled selected>Select Employment Type</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                                <option value="Freelance">Freelance</option>
+                            </select>
+                            <label for="txtEmploymentType">Employment Type</label>
+                        </div>
+                    </div>                    
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select [(ngModel)]="offerletter.WorkLocation" class="form-control form-control-sm" id="txtWorkLocation">
+                                <option value="" disabled selected>Select Work Location</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                            </select>
+                            <label for="txtWorkLocation">Work Location</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 5 -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select [(ngModel)]="offerletter.ProbationPeriod" class="form-control form-control-sm" id="txtProbationPeriod">
+                                <option value="" disabled selected>Select Probation Period</option>
+                                <option value="3 Months">3 Months</option>
+                                <option value="6 Months">6 Months</option>
+                                <option value="9 Months">9 Months</option>
+                                <option value="12 Months">12 Months</option>
+                            </select>
+                            <label for="txtProbationPeriod">Probation Period</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" [(ngModel)]="offerletter.Deadline"
+                                class="form-control form-control-sm" id="txtDeadline" placeholder="Deadline">
+                            <label for="txtDeadline">Deadline</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

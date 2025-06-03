@@ -1,0 +1,54 @@
+.profile-div {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.profile-header {
+  background: linear-gradient(to right, #d53369, #cbad6d);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.nav-tabs .nav-link {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  border-radius: 5px;
+  padding: 8px 20px;
+}
+
+.badge {
+  font-size: 14px;
+  padding: 5px 10px;
+}

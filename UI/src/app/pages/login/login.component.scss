@@ -1,0 +1,208 @@
+
+// @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+body {
+    height: 100vh;
+    width: 100%;
+    background: url("hero-bg.jpg") center/cover no-repeat;
+}
+.form-container {
+   
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    z-index: 10;
+    width: 100%;
+    opacity: 1;
+    display: block;
+    pointer-events: auto;
+    max-width: 720px;
+    background: #f3f0f0;
+    border: 2px solid #cd8181;
+    transform: translate(-50%, -70%);
+}
+.form-box {
+    display: flex;
+    justify-content: center;
+}
+.form-box .form-details {
+    width: 100%;
+    color: beige;
+    max-width: 320px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login 
+.form-details {
+    margin: 5px;
+    padding: 0 50px;
+    background: url("login-img.jpg");
+    top: 50%;
+    background-position: center;
+    background-size: cover;
+}
+// .signup 
+.form-details {
+    padding: 0 20px;
+    // background: url("signup-img.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.form-box .form-content {
+    width: 100%;
+    padding: 35px;
+}
+.form-box h2 {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-details p{
+    font-size: large;
+    color: #f5f7f8;
+    text-align: center;
+}
+form .input-field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+.input-field input {
+    height: 100%;
+    width: 100%;
+    background: none;
+    outline: none;
+    font-size: 0.95rem;
+    padding: 0 15px;
+    border: 1px solid #717171;
+    border-radius: 3px;
+}
+.input-field input:focus {
+    border: 1px solid #00bcd4;
+}
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #383333;
+    pointer-events: none;
+    transition: 0.2s ease;
+}
+.input-field input:is(:focus, :valid) {
+    padding: 16px 15px 0;
+}
+.input-field input:is(:focus, :valid)~label {
+    transform: translateY(-120%);
+    color: #00bcd4;
+    font-size: 0.75rem;
+}
+.form-box a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+.form-box a:hover {
+    text-decoration: underline;
+}
+form :where(.forgot-pass-link, .policy-text) {
+    display: inline-flex;
+    margin-top: 13px;
+    font-size: 0.95rem;
+}
+form button {
+    width: 100%;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 25px 0;
+    background: #00bcd4;
+    transition: 0.2s ease;
+}
+form button:hover {
+    background: #003da794;
+}
+.form-content .bottom-link {
+    text-align: center;
+}
+// .show-signup .signup
+.form-popup {
+    display: flex;
+}
+// .signup .policy-text {
+//     display: flex;
+//     margin-top: 14px;
+//     align-items: center;
+// }
+// .signup .policy-text input {
+//     width: 14px;
+//     height: 14px;
+//     margin-right: 7px;
+// }
+// @media (max-width: 950px) {
+//     .navbar :is(.hamburger-btn, .close-btn) {
+//         display: block;
+//     }
+//     .navbar {
+//         padding: 15px 0;
+//     }
+//     .navbar .logo img {
+//         display: none;
+//     }
+//     .navbar .logo h2 {
+//         font-size: 1.4rem;
+//     }
+//     .navbar .links {
+//         position: fixed;
+//         top: 0;
+//         z-index: 10;
+//         left: -100%;
+//         display: block;
+//         height: 100vh;
+//         width: 100%;
+//         padding-top: 60px;
+//         text-align: center;
+//         background: #fff;
+//         transition: 0.2s ease;
+//     }
+//     .navbar .links.show-menu {
+//         left: 0;
+//     }
+//     .navbar .links a {
+//         display: inline-flex;
+//         margin: 20px 0;
+//         font-size: 1.2rem;
+//         color: #000;
+//     }
+//     .navbar .links a:hover {
+//         color: #00BCD4;
+//     }
+//     .navbar .login-btn {
+//         font-size: 0.9rem;
+//         padding: 7px 10px;
+//     }
+// }
+@media (max-width: 760px) {
+    .form {
+        width: 95%;
+    }
+    .form-box .form-details {
+        display: none;
+    }
+    .form-box .form-content {
+        padding: 30px 20px;
+    }
+}

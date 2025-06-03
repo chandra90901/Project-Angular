@@ -1,0 +1,513 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+
+
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 style="font-family:Arial, Helvetica, sans-serif ;color: red; font-weight: bold;">New Employee Onboarding</h5>
+                    <div>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Information'}"
+                                (click)="step='Information'">Information</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Address'}" (click)="step='Address'">Address</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Bank'}" (click)="step='Bank'">Bank</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Access'}" (click)="step='Access'">Access</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-danger btn-action me-2"
+                            (click)="ClearEmployeeForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewEmployees()">
+                            <i class="fas fa-plus"></i> View Employee List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveEmployee()">
+                            <i class="fas fa-plus"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="step==='Information'">
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.Title" class="form-select form-select-sm" id="ddlTitle"
+                                    aria-label="Default select example">
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                                <label for="ddlTitle">Title</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input [(ngModel)]="employee.EmployeeName" type="text"
+                                    class="form-control form-control-sm" id="txtEmployeeName"
+                                    placeholder="Employee Name *">
+                                <label for="txtEmployeeName">Employee Name *</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.EmployeeStatus" class="form-select form-select-sm"
+                                    id="ddlEmployeeStatus" aria-label="Default select example">
+                                    <option *ngFor="let es of employeeStatues" [value]="es.Data">{{es.Data}}</option>
+                                </select>
+                                <label for="ddlEmployeeStatues">Employee Status</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" [(ngModel)]="employee.OfficeEmail"
+                                    class="form-control form-control-sm" id="txtOfficeEmail"
+                                    placeholder="Office Email *">
+                                <label for="txtOfficeEmail">Office Email *</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.OfficeMobileNumber"
+                                    class="form-control form-control-sm" id="txtOfficeMobileNumber"
+                                    placeholder="Office Mobile Number">
+                                <label for="txtOfficeMobileNumber">Office Mobile Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" [(ngModel)]="employee.EmployeeId"
+                                    class="form-control form-control-sm" id="txtEmployeeID" placeholder="EmployeeId*">
+                                <label for="txtEmployeeID">Employee ID*</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.PersonalMobileNumber"
+                                    class="form-control form-control-sm" id="txtPersonalMobileNumber"
+                                    placeholder="Personal Mobile Number">
+                                <label for="txtPersonalMobileNumber">Personal Mobile Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.PersonalEmail"
+                                    class="form-control form-control-sm" id="txtPersonalEmail"
+                                    placeholder="Personal Email">
+
+                                <label for="txtPersonalEmail">Personal Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" [(ngModel)]="employee.DateOfBirth"
+                                    class="form-control form-control-sm" id="txtDateOfBirth"
+                                    placeholder="Date of Birth(DD-MM-YYYY) *">
+                                <label for="txtDateOfBirth">Date of Birth(DD-MM-YYYY) *</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.Designation"
+                                    class="form-control form-control-sm" id="txtDesignation" placeholder="Designation">
+                                <label for="txtDesignation">Designation</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.Department"
+                                    class="form-control form-control-sm" id="txtDepartmente" placeholder="Department">
+                                <label for="txtDepartment">Department</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.ReportingTo" class="form-select form-select-sm"
+                                    id="ddlReportingTo" aria-label="Default select example">
+                                    <option *ngFor="let rt of reportingEmp" [value]="rt.EmployeeName">{{rt.EmployeeName}}</option>
+                                </select>
+                                <label for="ddlReportingTo">Reporting To</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" [(ngModel)]="employee.FathersName"
+                                    class="form-control form-control-sm" id="txtFathersName" placeholder="FathersName">
+                                <label for="txtFathersName">Father's Name</label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.EmployementType" class="form-select form-select-sm"
+                                    id="ddlEmployementType" aria-label="Default select example">
+                                    <option *ngFor="let et of employementType" [value]="et.Data">{{et.Data}}</option>
+                                </select>
+                                <label for="ddlEmployementType">Employement Type</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.Gender" class="form-select form-select-sm" id="ddlGender"
+                                    aria-label="Default select example">
+                                    <option *ngFor="let gr of gender" [value]="gr.Data">{{gr.Data}}</option>
+                                </select>
+                                <label for="ddlGender">Gender</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.MaritalStatus" class="form-select form-select-sm"
+                                    id="ddlMaritalStatus" aria-label="Default select example">
+                                    <option *ngFor="let ms of maritalStatues" [value]="ms.Data">{{ms.Data}}</option>
+                                </select>
+                                <label for="ddlMaritalStatus">Marital Status</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.Aadhar" class="form-control form-control-sm"
+                                    id="txtAadhar" placeholder="Aadhar">
+
+                                <label for="txtAadhar">Aadhar</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.PAN" class="form-control form-control-sm"
+                                    id="txtPAN" placeholder="PAN">
+
+                                <label for="txtPAN">PAN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.Religion" class="form-control form-control-sm"
+                                    id="txtReligion" placeholder="Religion">
+                                <label for="txtReligion">Religion</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="text" [(ngModel)]="employee.BloodGroup"
+                                    class="form-control form-control-sm" id="txtBloodGroup" placeholder="BloodGroup">
+                                <label for="txtBloodGroup">Blood Group</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.EmergencyContact"
+                                    class="form-control form-control-sm" id="txtEmergencyContact"
+                                    placeholder="EmergencyContact">
+
+                                <label for="txtEmergencyContact">Emergency Contact</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="employee.Branch" class="form-select form-select-sm" id="ddlBranch"
+                                    aria-label="Default select example">
+                                    <option *ngFor="let br of branchs" [value]="br.Data">{{br.Data}}</option>
+                                </select>
+                                <label for="ddlBranch">Branch</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.UAN" class="form-control form-control-sm"
+                                    id="txtUAN" placeholder="UAN">
+
+                                <label for="txtUAN">UAN</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="text" [(ngModel)]="employee.ESI" class="form-control form-control-sm"
+                                    id="txtESI" placeholder="ESI">
+
+                                <label for="txtESI">ESI</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="date" [(ngModel)]="employee.DateOfJoining"
+                                    class="form-control form-control-sm" id="txtDateOfJoining"
+                                    placeholder="DateOfJoining">
+                                <label for="txtDateOfJoining">Date of Joining</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <div class="form-floating">
+
+                                <input type="time" [(ngModel)]="employee.CheckInTime"
+                                    class="form-control form-control-sm" id="CheckInTime" placeholder="CheckInTime">
+                                <label for="txtCheckInTime">Checkin-Time</label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="time" [(ngModel)]="employee.CheckOutTime"
+                                    class="form-control form-control-sm" id="txtCheckOutTime"
+                                    placeholder="CheckOutTime">
+                                <label for="txtCheckOutTime">Checkout-Time</label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+
+                                <input type="date" [(ngModel)]="employee.DateOfExit"
+                                    class="form-control form-control-sm" id="txtDateOfExit" placeholder="DateOfExit">
+
+                                <label for="txtDateOfExit">Date of Exit</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step==='Address'">
+                    <div class="container mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': address_step === 'Present Address'}"
+                                    (click)="address_step = 'Present Address'">Present Address</button>
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': address_step === 'Permanent Address'}"
+                                    (click)="address_step = 'Permanent Address'">Permanent Address</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="sameAsPresent"
+                            [(ngModel)]="isSameAsPresent" />
+                        <label class="form-check-label" for="sameAsPresent">
+                            Permanent address is same as Present address
+                        </label>
+                    </div>
+
+
+                    <div *ngIf=" address_step === 'Present Address'">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtAddressLine1"
+                                        placeholder="Address Line 1">
+                                    <label for="txtAddressLine1">Address Line 1</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtAddressLine2"
+                                        placeholder="Address Line 2">
+                                    <label for="txtAddressLine2">Address Line 2</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtCity"
+                                        placeholder="City"> <label for="txtCity">City</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtPincode"
+                                        placeholder="Pincode">
+                                    <label for="txtPincode">Pincode</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlState"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeStatues" [value]="es.Data">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlState">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlCountry"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeStatues" [value]="es.Data">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlCountry">Country</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf=" address_step === 'Permanent Address'">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtAddressLine1"
+                                        placeholder="Address Line 1">
+                                    <label for="txtAddressLine1">Address Line Text</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtAddressLine2"
+                                        placeholder="Address Line 2">
+                                    <label for="txtAddressLine2">Address Line 2</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtCity"
+                                        placeholder="City"> <label for="txtCity">City</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtPincode"
+                                        placeholder="Pincode">
+                                    <label for="txtPincode">Pincode</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlState"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeStatues" [value]="es.Data">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlState">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlCountry"
+                                        aria-label="Default select example">
+                                        <option *ngFor="let es of employeeStatues" [value]="es.Data">{{es.Data}}
+                                        </option>
+                                    </select>
+                                    <label for="ddlCountry">Country</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step==='Bank'">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtaccountNumber"
+                                    placeholder="Account Number">
+                                <label for="txtaccountNumber">Account Number</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" [(ngModel)]="employee.AccountName"
+                                    class="form-control form-control-sm" id="txtaccountName" placeholder="Account Name">
+                                <label for="txtaccountName">Account Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlbankName"
+                                    aria-label="Default select example">
+                                    <option value="sbi">SBI </option>
+                                    <option value="hdfc">HDFC </option>
+                                    <option value="yes">YES </option>
+                                    <option value="idfc">IDFC </option>
+                                    <option value="axis">AXIS </option>
+                                </select>
+                                <label for="ddlbankName">Bank Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtisfcCode"
+                                    placeholder="IFSC Code">
+                                <label for="txtisfcCode">IFSC Code</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="ddlaccountType"
+                                    aria-label="Default select example">
+                                    <option value="salary">Salary </option>
+                                    <option value="saving">Saving </option>
+                                    <option value="current">Current </option>
+                                </select>
+                                <label for="ddlaccountType">Account Type</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtbranchName"
+                                    placeholder="Branch Name">
+                                <label for="txtbranchName">Branch Name</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step==='Access'">
+                    Access
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

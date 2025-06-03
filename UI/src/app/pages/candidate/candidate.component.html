@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width:100%">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">e-Crawler Candidate</h1>
+                <button type="button" class="btn btn-success btn-action" (click)="AddNewCandidateForm()">
+                    <i class="fas fa-plus"></i> Add candidate
+                </button>
+            </div>
+            <div>
+                <table class="table table-striped">
+                    <thead >
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Candidate Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Skill Set</th>
+                            <th scope="col">AadharCard Number</th>
+                            <th scope="col">PanCard Number</th>
+                            <th scope="col">Review</th>
+                           
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (can of candidate; track can.CandidateName; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ can.CandidateName}}</td>
+                            <td>{{ can.EmailAddress}}</td>
+                            <td>{{ can.PhoneNumber}}</td>
+                            <td>{{ can.SkillSet}}</td>
+                            <td>{{ can.AadharCardNumber}}</td>
+                            <td>{{ can.PanCardNumber}}</td>
+
+                            <td>
+                                <i class="bi bi-clock-history" (click)="openHistoryModal(historyModal,can)"
+                                    style="cursor: pointer; color: blue;"></i>
+                            </td>
+                            <td>
+                                <i class="bi bi-pencil-fill" (click)="EditCandidate(can._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                           
+                                <i class="bi bi-trash3-fill" (click)="DeleteCan(can._id)"
+                                    style="cursor: pointer; color: red;"></i>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+<ng-template #historyModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Candidate Remark</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <!-- <div class="col-md-6 mb-3">
+                    <label for="Date" class="form-label">Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="Candidateremark.Date" name="Date" />
+                </div> -->
+                <div>
+                    <label for="Remark" class="form-label">Remark</label>
+                    <input type="text" class="form-control" [(ngModel)]="Candidateremark.Remark" name="Remark" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveRemarks()">Save</button>
+    </div>
+</ng-template>

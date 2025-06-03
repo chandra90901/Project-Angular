@@ -1,0 +1,501 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout pageHeader="Customers"></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 200%;">
+            <!-- <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">e-Crawler Add Employee</h1>
+        </div>
+        <div> -->
+
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 style="font-family: Arial, Helvetica, sans-serif; color:red;font-weight:bold;">New Customer
+                        Onboarding</h5>
+                    <div>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Information'}"
+                                (click)="step='Information'">Information</button>
+                            <button type="button" class="btn btn-outline-primary"
+                                [ngClass]="{'active': step === 'Bank'}" (click)="step='Bank'">Banking & Taxes</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="clear()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewCustomers()">
+                            <i class="fas fa-plus"></i> View Customer List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveCustomer()">
+                            <i class="fas fa-plus"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <form [formGroup]="customerForm" (ngSubmit)="SaveCustomer()">
+                    <div *ngIf="step==='Information'">
+                        <div class="row mb-2">
+                            <div class="col-md-2">
+                                <div class="form-floating">
+                                    <select formControlName="title" class="form-select form-select-sm" id="ddlTitle"
+                                        aria-label="Default select example">
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                        <option value="Dr.">Dr.</option>
+                                    </select>
+                                    <label for="ddlTitle">Title</label>
+                                </div>
+                                <div *ngIf="customerForm.get('title')?.invalid && customerForm.get('title')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="customerForm.get('title')?.errors?.['required']">title is
+                                        required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input formControlName="customerName" type="text"
+                                        class="form-control form-control-sm" id="txtCustomerName"
+                                        placeholder="Customer Name *">
+                                    <label for="txtEmployeeName">Customer Name *</label>
+                                </div>
+                                <div *ngIf="customerForm.get('customerName')?.invalid && customerForm.get('customerName')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="customerForm.get('customerName')?.errors?.['required']">Customer name is
+                                        required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select formControlName="entityType" class="form-select form-select-sm"
+                                        id="ddlEntityType" aria-label="Default select example">
+                                        <option *ngFor="let et of entityTypeMaster" [value]="et.Id"> {{ et.Data }}
+                                        </option>
+                                        <!-- <option value="One Person Company">One Person Company </option>
+                                    <option value="Private Limited company">Private Limited company </option>
+                                    <option value="Public Limited company">Public Limited company </option>
+                                    <option value="Section 8 company">Section 8 company </option>
+                                    <option value="Partnership firm">Partnership firm </option>
+                                    <option value="Limited Liability Partnership firm (LLP)">Limited Liability
+                                        Partnership firm (LLP) </option>
+                                    <option value="Hindu Undivided Family (HUF)">Hindu Undivided Family (HUF) </option>
+                                    <option value="Liaison Office">Liaison Office </option> -->
+
+                                    </select>
+                                    <label for="ddlEntityType">Entity Type</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="email" type="text" class="form-control form-control-sm"
+                                        id="txtEmail" placeholder="Email *">
+                                    <label for="txtEmail">E-Mail *</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="customerForm.get('email')?.errors?.['email'] && customerForm.get('email')?.touched">
+                                    <span>Invalid email format*</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="mobileNumber" class="form-control form-control-sm"
+                                        id="txtMobileNumber" placeholder="Mobile Number">
+                                    <label for="txtMobileNumber">Mobile Number</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="customerForm.get('mobileNumber')?.errors?.['required'] && customerForm.get('mobileNumber')?.touched">
+                                    <span>Invalid Number format*</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="customerGstin" type="text"
+                                        class="form-control form-control-sm" id="customergstin"
+                                        placeholder="Customer GSTIN">
+                                    <label for="customergstin">Customer GSTIN</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select formControlName="fillingStatus" type="text"
+                                        class="form-control form-control-sm" id="txtFillingStatus">
+                                        <option *ngFor="let fs of fillingStatusIdMaster" [value]="fs.Id">
+                                            {{fs.Data}}</option>
+                                    </select>
+                                    <label for="txtFillingStatus">Filling Status</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="branchName" type="text" class="form-control form-control-sm"
+                                        id="txtbranchName" placeholder="BranchName">
+                                    <label for="txtbranchName">Branch Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="displayName" type="text"
+                                        class="form-control form-control-sm" id="displayName"
+                                        placeholder="Display Name">
+                                    <label for="displayName">Display Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="phoneNumber" type="number"
+                                        class="form-control form-control-sm" id="phoneNumber"
+                                        placeholder="Phone Number">
+                                    <label for="phoneNumber">Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="fax" type="fax" class="form-control form-control-sm"
+                                        id="fax" placeholder="Fax">
+                                    <label for="fax">Fax</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="step==='Address'">
+                        Address
+                    </div>
+                    <div *ngIf="step==='Bank'">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="accountNumber" type="text"
+                                        class="form-control form-control-sm" id="txtaccountNumber"
+                                        placeholder="Account Number">
+                                    <label for="txtaccountNumber">Account Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="accountName" type="text"
+                                        class="form-control form-control-sm" id="txtaccountName"
+                                        placeholder="Account Name">
+                                    <label for="txtaccountName">Account Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select formControlName="bankName" class="form-select form-select-sm"
+                                        id="ddlbankName" aria-label="Default select example"
+                                        aria-placeholder="Bank Name">
+                                        <option *ngFor="let bi of bankIdMaster" [value]="bi.Id">
+                                            {{bi.Data}}</option>
+                                        <!-- <option value="selet">Select</option> -->
+                                        <!-- <option value="sbi">SBI </option>
+                                    <option value="hdfc">HDFC </option>
+                                    <option value="yes">YES </option>
+                                    <option value="idfc">IDFC </option>
+                                    <option value="axis">AXIS </option> -->
+                                    </select>
+                                    <label for="ddlbankName">Bank Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="ifsc" type="text" class="form-control form-control-sm"
+                                        id="txtisfcCode" placeholder="IFSC Code">
+                                    <label for="txtisfcCode">IFSC Code</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select formControlName="accountType" class="form-select form-select-sm"
+                                        id="ddlaccountType" aria-label="Default select example">
+                                        <option *ngFor="let at of accountTypeIdMaster" [value]="at.Id">
+                                            {{at.Data}}</option>
+                                        <!-- <option value="salary">Salary </option>
+                                    <option value="saving">Saving </option>
+                                    <option value="current">Current </option> -->
+                                    </select>
+                                    <label for="ddlaccountType">Account Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input formControlName="addressbranchName" type="text"
+                                        class="form-control form-control-sm" id="txtbranchName"
+                                        placeholder="Branch Name">
+                                    <label for="txtbranchName">Branch Name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="step==='Access'">
+                        Access
+                    </div> -->
+                    </div>
+                    <div class="container mt-3">
+                        <div class="d-flex justify-content-center align-items-center mb-4">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': step_address === 'Billing-Address'}"
+                                    (click)="step_address='Billing-Address'">Billing Address</button>
+                                <button type="button" class="btn btn-outline-primary"
+                                    [ngClass]="{'active': step_address === 'Shipping-Address'}"
+                                    (click)="step_address='Shipping-Address'">Shipping Address</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div *ngIf="step_address==='Billing-Address'">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="billingAddress1" type="text"
+                                            class="form-control form-control-sm" id="address1" placeholder="address1">
+                                        <label for="address1"> Billing Adress 1 *</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="billingAddress2" type="text"
+                                            class="form-control form-control-sm" id="address2" placeholder="Address2">
+                                        <label for="address2">Billing Address 2 *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="billingCity" type="text"
+                                            class="form-control form-control-sm" id="city" placeholder="City">
+                                        <label for="city"> Billing City</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="billingPincode" type="number"
+                                            class="form-control form-control-sm" id="pincode" placeholder="City">
+                                        <label for="pincode">Pincode</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select formControlName="stateId" class="form-select form-select-sm" id="state"
+                                            aria-label="Default select example">
+                                            <option *ngFor="let si of stateIdMaster" [value]="si.Id">
+                                                {{si.Data}}</option>
+                                            <!-- <option value="select">Select</option> -->
+                                            <!-- <option value="ap">Andhra Pradesh</option>
+                                        <option value="arunp">Arunachal Pradesh </option>
+                                        <option value="assam">Assam </option>
+                                        <option value="bihar">Bihar </option>
+                                        <option value="chhattisgarh">Chhattisgarh </option>
+                                        <option value="goa">Goa </option>
+                                        <option value="Gujarat">Gujarat </option>
+                                        <option value="Haryana">Haryana </option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh </option>
+                                        <option value="Jharkhand">Jharkhand </option>
+                                        <option value="Karnataka">Karnataka </option>
+                                        <option value="Kerala">Kerala </option>
+                                        <option value="mp">Madhya Pradesh </option>
+                                        <option value="Maharashtra">Maharashtra </option>
+                                        <option value="Manipur">Manipur </option>
+                                        <option value="Meghalaya">Meghalaya </option>
+                                        <option value="Mizoram">Mizoram </option>
+                                        <option value="Nagaland">Nagaland </option>
+                                        <option value="Punjab">Punjab </option>
+                                        <option value="Rajasthan">Rajasthan </option>
+                                        <option value="Sikkim">Sikkim </option>
+                                        <option value="Tamil Nadu">Tamil Nadu </option>
+                                        <option value="Telangana">Telangana </option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh </option>
+                                        <option value="Tripura">Tripura </option>
+                                        <option value="Uttarakhand">Uttarakhand </option>
+                                        <option value="West Bengal">West Bengal </option> -->
+                                        </select>
+                                        <label for="state">State</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select formControlName="countryId" type="text"
+                                            class="form-control form-control-sm" id="country">
+                                            <option *ngFor="let ci of countryIdMaster" [value]="ci.Id">
+                                                {{ci.Data}}</option>
+                                        </select>
+                                        <label for="country">Country</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="accountBranchName" type="text"
+                                            class="form-control form-control-sm" id="branchName"
+                                            placeholder="Branch Name">
+                                        <label for="branchName">Billing Branch Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="accountGstin" type="text-number"
+                                            class="form-control form-control-sm" id="gstin" placeholder="GSTIN">
+                                        <label for="gstin">Billing GSTIN</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="accountEMail" type="text"
+                                            class="form-control form-control-sm" id="email" placeholder="E-Mail">
+                                        <label for="email">E-Mail</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="accountMobileNumber" type="number"
+                                            class="form-control form-control-sm" id="mb" placeholder="Mobile Number">
+                                        <label for="mb">Mobile Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="step_address==='Shipping-Address'">
+                            <P class="background-color green mb-2">Shipping Address</P>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingAddress1" type="text"
+                                            class="form-control form-control-sm" id="address1" placeholder="address1">
+                                        <label for="address1">Shipping Adress 1 *</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingAddress2" type="text"
+                                            class="form-control form-control-sm" id="address2" placeholder="Address2">
+                                        <label for="address2">Shipping Address 2 *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingCity" type="text"
+                                            class="form-control form-control-sm" id="city" placeholder="City">
+                                        <label for="city">Shipping City</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingPincode" type="number"
+                                            class="form-control form-control-sm" id="pincode" placeholder="City">
+                                        <label for="pincode">Pincode</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select formControlName="shippingStateId" class="form-select form-select-sm"
+                                            id="state" aria-label="Default select example">
+                                            <option *ngFor="let ss of shippingStateIdMaster" [value]="ss.Id">
+                                                {{ss.Data}}</option>
+                                            <!-- <option value="select">Select</option> -->
+                                            <!-- <option value="ap">Andhra Pradesh</option>
+                                        <option value="arunp">Arunachal Pradesh </option>
+                                        <option value="assam">Assam </option>
+                                        <option value="bihar">Bihar </option>
+                                        <option value="chhattisgarh">Chhattisgarh </option>
+                                        <option value="goa">Goa </option>
+                                        <option value="Gujarat">Gujarat </option>
+                                        <option value="Haryana">Haryana </option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh </option>
+                                        <option value="Jharkhand">Jharkhand </option>
+                                        <option value="Karnataka">Karnataka </option>
+                                        <option value="Kerala">Kerala </option>
+                                        <option value="mp">Madhya Pradesh </option>
+                                        <option value="Maharashtra">Maharashtra </option>
+                                        <option value="Manipur">Manipur </option>
+                                        <option value="Meghalaya">Meghalaya </option>
+                                        <option value="Mizoram">Mizoram </option>
+                                        <option value="Nagaland">Nagaland </option>
+                                        <option value="Punjab">Punjab </option>
+                                        <option value="Rajasthan">Rajasthan </option>
+                                        <option value="Sikkim">Sikkim </option>
+                                        <option value="Tamil Nadu">Tamil Nadu </option>
+                                        <option value="Telangana">Telangana </option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh </option>
+                                        <option value="Tripura">Tripura </option>
+                                        <option value="Uttarakhand">Uttarakhand </option>
+                                        <option value="West Bengal">West Bengal </option> -->
+                                        </select>
+                                        <label for="state">State</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select formControlName="shippingCountryId" type="text"
+                                            class="form-control form-control-sm" id="country">
+                                            <option *ngFor="let sc of shippingCounrtyMaster" [value]="sc.Id">
+                                                {{sc.Data}}</option>
+
+                                        </select>
+                                        <label for="country">Country</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingBranchName" type="text"
+                                            class="form-control form-control-sm" id="branchName"
+                                            placeholder="Branch Name">
+                                        <label for="branchName">Shipping Branch Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingGstin" type="text-number"
+                                            class="form-control form-control-sm" id="gstin" placeholder="GSTIN">
+                                        <label for="gstin">Shipping GSTIN</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingEMail" type="text"
+                                            class="form-control form-control-sm" id="email" placeholder="E-Mail">
+                                        <label for="email">E-Mail</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input formControlName="shippingMobileNumber" type="number"
+                                            class="form-control form-control-sm" id="mb" placeholder="Mobile Number">
+                                        <label for="mb">Mobile Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout pageHeader="User Form"></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 style="color: red; font-size: 30px;">User</h5>
+                    <div>
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="ClearUserForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewUser()">
+                            <i class="fas fa-plus"></i> View User List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveUser()">
+                            <i class="fas fa-plus"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <form [formGroup]="userForm" (ngSubmit)="SaveUser()">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control form-control-sm" id="txtuserName"
+                                        placeholder="Username" formControlName="txtuserName">
+                                    <label for="txtuserName">User Name:</label>
+                                </div>
+                                <div *ngIf="userForm.get('txtuserName')?.invalid && userForm.get('txtuserName')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="userForm.get('txtuserName')?.errors?.['required']">Username is required.
+                                    </div>
+                                    <div *ngIf="userForm.get('txtuserName')?.errors?.['minlength']">Username must be at
+                                        least 3 characters.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control form-control-sm" id="txtPassword"
+                                        placeholder="Password" formControlName="txtPassword">
+                                    <label for="txtPassword">Password:</label>
+                                </div>
+                                <div *ngIf="userForm.get('txtPassword')?.invalid && userForm.get('txtPassword')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="userForm.get('txtPassword')?.errors?.['required']">Password is required.
+                                    </div>
+                                    <div *ngIf="userForm.get('txtPassword')?.errors?.['minlength']">Password must be at
+                                        least 6 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="txtroleId"
+                                        aria-label="Default select example" formControlName="txtroleId">
+                                        <option *ngFor="let r of roles" [value]="r.Id">{{ r.roleName }}</option>
+                                    </select>
+                                    <label for="txtroleId">Role Id:</label>
+                                </div>
+                                <div *ngIf="userForm.get('txtroleId')?.invalid && userForm.get('txtroleId')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="userForm.get('txtroleId')?.errors?.['required']">RoleName is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlEmployeeID"
+                                        aria-label="Default select example" formControlName="ddlEmployeeID">
+                                        <option *ngFor="let e of employees" [value]="e.Id">{{ e.EmployeeName }}</option>
+                                    </select>
+                                    <label for="ddlEmployeeID">Employee:</label>
+                                </div>
+                                <div *ngIf="userForm.get('ddlEmployeeID')?.invalid && userForm.get('ddlEmployeeID')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="userForm.get('ddlEmployeeID')?.errors?.['required']">Employee Name is
+                                        required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select form-select-sm" id="ddlStatus"
+                                        aria-label="Default select example" formControlName="ddlStatus">
+                                        <option value="Active">ACTIVE</option>
+                                        <option value="Inactive">INACTIVE</option>
+                                    </select>
+                                    <label for="ddlStatus"> Status</label>
+                                </div>
+                                <div *ngIf="userForm.get('ddlStatus')?.invalid && userForm.get('ddlStatus')?.touched"
+                                    class="text-danger small">
+                                    <div *ngIf="userForm.get('ddlStatus')?.errors?.['required']">Status is
+                                        required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

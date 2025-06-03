@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+
+            <div class="container mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 style="color: rgb(111, 0, 255);"> New Candidate </h2>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="ClearCandidateForm()">
+                            <i class="fas fa-times"></i> Clear  
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewCandidate()">
+                            <i class="fas fa-eye"></i> View Candidate List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveCandidate()">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.CandidateName" class="form-control form-control-sm" id="txtCandidateName" placeholder="Candidate Name">
+                        <label for="txtCandidateName">Candidate Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.EmailAddress" class="form-control form-control-sm" id="txtEmailAddress" placeholder="Email Address">
+                        <label for="txtEmailAddress">Email Address</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.PhoneNumber" class="form-control form-control-sm" id="txtPhoneNumber" placeholder="Phone Number">
+                        <label for="txtPhoneNumber">Phone Number</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.SkillSet" class="form-control form-control-sm" id="txtSkillSet" placeholder="Skill Set">
+                        <label for="txtSkillSet">Skill Set</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.PanCardNumber" class="form-control form-control-sm" id="txtPanCardNumber" placeholder="PanCard Number">
+                        <label for="txtPanCardNumber">PanCard Number</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" [(ngModel)]="candidate.AadharCardNumber" class="form-control form-control-sm" id="txtAadharCardNumber" placeholder="AadharCard Number">
+                        <label for="txtAadharCardNumber">AadharCard Number</label>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>

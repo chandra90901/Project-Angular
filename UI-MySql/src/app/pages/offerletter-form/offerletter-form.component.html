@@ -1,0 +1,156 @@
+<div class="container-fluid">
+    <div class="row">
+      
+        <app-admin-layout *ngIf="selectedEmployeeId != '' && selectedEmployeeId != undefined" pageHeader="Edit Offer Letter"></app-admin-layout>
+        <app-admin-layout *ngIf="selectedEmployeeId == '' || selectedEmployeeId == undefined" pageHeader="Add Offer Letter"></app-admin-layout>
+      
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 style="color:red; font-size: 30px;">New Offer Letter</h5>
+                    <div>
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="ClearofferletterForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewOfferletters()">
+                            <i class="fas fa-eye"></i> View OfferLetter List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveOfferletter()">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+            <form [formGroup]="offerletterForm" (ngSubmit)="SaveOfferletter()">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" formControlName="candidateName"
+                                class="form-control form-control-sm" id="txtCandidateName" placeholder="Candidate Name">
+                            <label for="txtCandidateName">Candidate Name</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('candidateName')?.invalid && offerletterForm.get('candidateName')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('candidateName')?.errors?.['required']"> candidateName is required
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date"formControlName="date"
+                                class="form-control form-control-sm" id="txtDate" placeholder="Date">
+                            <label for="txtDate">Date</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('date')?.invalid && offerletterForm.get('date')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('date')?.errors?.['required']"> Date is required
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select formControlName="jobTitle" class="form-select form-select-sm"
+                                    id="ddlJobTitleId" aria-label="Default select example">
+                                    <option *ngFor="let jt of jobTitleMaster" [value]="jt.Id">{{jt.Data}}</option>
+                                </select>
+                            <label for="txtJobTitle">Job Title</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('jobTitle')?.invalid && offerletterForm.get('jobTitle')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('jobTitle')?.errors?.['required']"> jobTitle is required
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" formControlName="department"
+                                class="form-control form-control-sm" id="txtDepartment" placeholder="Department">
+                            <label for="txtDepartment">Department</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('department')?.invalid && offerletterForm.get('department')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('department')?.errors?.['required']"> department is required
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" formControlName="reportingManager"
+                                class="form-control form-control-sm" id="txtReportingManager" placeholder="Reporting Manager">
+                            <label for="txtReportingManager">Reporting Manager</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('reportingManager')?.invalid && offerletterForm.get('reportingManager')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('reportingManager')?.errors?.['required']"> reportingManager is required
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" formControlName="deadline"
+                                class="form-control form-control-sm" id="txtDeadline" placeholder="Deadline">
+                            <label for="txtDeadline">Deadline</label>
+                        </div>
+                         <div *ngIf="offerletterForm.get('deadline')?.invalid && offerletterForm.get('deadline')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('deadline')?.errors?.['required']"> deadline is required
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                          <select formControlName="employmentType" class="form-select form-select-sm"
+                                 id="ddlEmployementTypeId" aria-label="Default select example">
+                                 <option *ngFor="let emt of employmentTypeMaster" [value]="emt.Id">{{emt.Data}}</option>
+                          </select>
+                            <label for="txtEmploymentType">Employment Type</label>
+                        </div>
+                           <div *ngIf="offerletterForm.get('employmentType')?.invalid && offerletterForm.get('employmentType')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('employmentType')?.errors?.['required']"> employmentType is required
+                        </div>
+                    </div>
+                    </div>                    
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select formControlName="workLocation" class="form-select form-select-sm" id="ddlWorkLocation"
+                            aria-label="Default select example">
+                            <option *ngFor="let wkl of workLocationMaster" [value]="wkl.Id">{{wkl.Data}}</option>
+                            </select>
+                            <label for="txtWorkLocation">Work Location</label>
+                        </div>
+                           <div *ngIf="offerletterForm.get('workLocation')?.invalid && offerletterForm.get('workLocation')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('workLocation')?.errors?.['required']"> workLocation is required
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select formControlName="probationPeriod" class="form-select form-select-sm"
+                                 id="ddlProbationPeriodId" aria-label="Default select example">
+                                 <option *ngFor="let prp of probationPeriodMaster" [value]="prp.Id">{{prp.Data}}</option>
+                          </select>
+                            <label for="txtProbationPeriod">Probation Period</label>
+                        </div>
+                            <div *ngIf="offerletterForm.get('probationPeriod')?.invalid && offerletterForm.get('probationPeriod')?.touched"
+                        class="text-danger small">
+                        <div *ngIf="offerletterForm.get('probationPeriod')?.errors?.['required']"> probationPeriod is required
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+        
+        </main>
+        
+    </div>
+</div>

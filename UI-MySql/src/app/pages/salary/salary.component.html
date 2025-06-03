@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-admin-layout></app-admin-layout>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">e-Crawler Employee Salary</h1>
+            </div>
+            <div class="input-group w-50">
+                <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight" class="btn btn-primary btn-sm me-2" (click)="open()">
+                    Add Employee
+                </button>
+                <input type="text" class="form-control me-2" placeholder="Search" />
+                <div style="display: flex; align-items: center;">
+                    <input style="color: white; margin-right: 10px;" type="number" class="btn btn-secondary me-5"
+                        placeholder="Filters" />
+                </div>
+            </div>
+            <hr />
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Basic Info</th>
+                            <th scope="col">Date of Joining</th>
+                            <th scope="col">Contact</th>
+                            <th scope="col">Reporting Info</th>
+                            <th scope="col">Salary Setup</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sal of salaries;">
+                            <td>{{ sal.Basic_info }}</td>
+                            <td>{{ sal.Dateofjoining }}</td>
+                            <td>{{ sal.Contact }}</td>
+                            <td>{{ sal.Reportinginfo }}</td>
+                            <td style="color: red;">
+                                <ul>
+                                    <li>{{ sal.Salarysetup }}</li>
+                                </ul>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">{{ isEditMode ? 'Edit Employee Salary' : 'Add Employee Salary' }}</h5>
+        <button type="button" class="btn-close text-reset" aria-label="Close" (click)="closeSidebar()"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form>
+            <div class="mb-3">
+                <label for="Basic_info" class="form-label">Basic Info</label>
+                <input type="text" class="form-control" id="Basic_info" [(ngModel)]="salary.Basic_info"
+                    name="Basic_info" required />
+            </div>
+            <div class="mb-3">
+                <label for="Dateofjoining" class="form-label">Date of Joining</label>
+                <input type="date" class="form-control" id="Dateofjoining" [(ngModel)]="salary.Dateofjoining"
+                    name="Dateofjoining" required />
+            </div>
+            <div class="mb-3">
+                <label for="Reportinginfo" class="form-label">Reporting Info</label>
+                <input type="text" class="form-control" id="Reportinginfo" [(ngModel)]="salary.Reportinginfo"
+                    name="Reportinginfo" required />
+            </div>
+            <div class="mb-3">
+                <label for="Contact" class="form-label">Contact</label>
+                <input type="text" class="form-control" id="Contact" [(ngModel)]="salary.Contact" name="Contact"
+                    required />
+            </div>
+            <div class="mb-3">
+                <label for="Salarysetup" class="form-label">Salary Setup</label>
+                <input type="text" class="form-control" id="Salarysetup" [(ngModel)]="salary.Salarysetup"
+                    name="Salarysetup" required />
+            </div>
+        </form>
+    </div>
+    <div class="offcanvas-footer">
+        <button type="button" class="btn btn-secondary ml-2" (click)="closeSidebar()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+</div>

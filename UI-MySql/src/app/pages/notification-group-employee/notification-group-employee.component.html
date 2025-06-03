@@ -1,0 +1,140 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout pageHeader="Notification Employee Group"></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10" style="width:100%">
+            <div>
+                <table class="table table-striped">
+                    <thead style="background-color: #88b8f2;">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Employee Name</th>
+                            <th scope="col">Group Name</th>
+                            <th scope="col">Status</th>
+                            <th><button type="button" class="btn btn-success btn-action" (click)="open(content)"><i class="fas fa-plus"></i>
+                                 Add
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (nt of currentPagenotificationEGs; track nt.EmployeeId; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ (currentPage - 1) * pageSize + i + 1 }}</th>
+                            <td>{{ nt.EmployeeName }}</td>
+                            <td>{{ nt.GroupName }}</td>
+                            <td>{{ nt.Status }}</td>
+                            <td>
+                                <i class="bi bi-pencil-fill" (click)="open(content, nt)"
+                                    style="cursor: pointer;font-size: 20px;margin-right: 30px;">
+                                </i>
+                                <i class="bi bi-trash3-fill" (click)="openDeleteModal(leaveNotificationEGModal, nt.Id)"
+                                    style="cursor: pointer; color: red;font-size: 20px;">
+                                </i>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="container mt-3">
+                    <div class="row d-flex justify-content-center align-items-center" style="flex-wrap: nowrap;">
+                        <div class="col-auto mb-3 d-flex align-items-center">
+                            <label for="pageSize" class="mr-2 mb-0" style="min-width: 120px;">Items per page:</label>
+                            <select class="form-control" id="pageSize" [(ngModel)]="pageSize"
+                                (change)="onPageSizeChange(pageSize)">
+                                <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+                            </select>
+                        </div>
+                        <div class="col-auto mb-3 d-flex align-items-center ml-3">
+                            <span>Total records: <b>{{ totalItems }}</b></span>
+                        </div>
+                        <div class="col-auto mb-3">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination mb-0">
+                                    <li class="page-item" [class.disabled]="currentPage === 1">
+                                        <a class="page-link" href="#" (click)="goToPage(1, $event)">First</a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="currentPage === 1">
+                                        <a class="page-link" href="#"
+                                            (click)="goToPage(currentPage - 1, $event)">Previous</a>
+                                    </li>
+                                    <li class="page-item" *ngFor="let page of totalPages">
+                                        <a class="page-link" href="#" (click)="goToPage(page, $event)" [ngClass]="{'active': currentPage === page}">
+                                            {{ page }}
+                                        </a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="currentPage === totalPages.length">
+                                        <a class="page-link" href="#"(click)="goToPage(currentPage + 1, $event)">Next</a>
+                                    </li>
+                                    <li class="page-item" [class.disabled]="currentPage === totalPages.length">
+                                        <a class="page-link" href="#" (click)="goToPage(totalPages.length, $event)">Last</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">
+            {{ isEditMode ? 'Notification Employee Group ' : 'Notification Employee Group' }}
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="mb-3">
+                <label for="EmployeeId" class="form-label">Employee Name</label>
+                <select class="form-select form-select-sm" id="EmployeeId"
+                    [(ngModel)]="notificationGroupEmployee.EmployeeId" aria-label="Default select example">
+                    <option *ngFor="let ei of employeeName" [value]="ei.Id"> {{ ei.EmployeeName }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="GroupId" class="form-label">Group Name</label>
+                <select type="text" class="form-select form-select-sm" id="GroupId"
+                    [(ngModel)]="notificationGroupEmployee.GroupId" aria-label="Default select example">
+                    <option *ngFor="let gi of groupName" [value]="gi.Id">{{ gi.GroupName }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Status" class="form-label"> Status</label>
+                <select [(ngModel)]="notificationGroupEmployee.Status" [ngModelOptions]="{standalone: true}"
+                    class="form-select form-select-sm" id="Status" aria-label="Default select example">
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+</ng-template>
+<ng-template #leaveNotificationEGModal let-modal>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to delete Employee</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+                    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

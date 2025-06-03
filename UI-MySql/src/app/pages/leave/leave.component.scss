@@ -1,0 +1,45 @@
+.table th {
+  background-color: #88b8f2;
+  color: white;
+}
+
+button.pagination {
+  margin-right: 10px;
+  &.edit-btn {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  &.delete-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+}
+
+.table th {
+  background-color: white;
+  color: black;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.page-item .page-link.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.page-item .page-link {
+  cursor: pointer;
+}
+
+.container-fluid {
+  padding: 0px;
+}

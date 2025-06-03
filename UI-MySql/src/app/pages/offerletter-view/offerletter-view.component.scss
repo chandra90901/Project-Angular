@@ -1,0 +1,55 @@
+.underline-input {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  width: 150px;
+  font-size: 16px;
+  text-align: center;
+  background: transparent;
+  padding: 2px 0;
+}
+
+.underline-input:focus {
+  border-bottom: 2px solid black;
+}
+
+.underline-input::placeholder {
+  color: transparent;
+}
+
+.underline-input:not(:placeholder-shown) {
+  color: black;
+}
+
+.inline-input {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  font-size: inherit;
+  width: auto;
+  display: inline;
+  background: transparent;
+}
+
+.underline-input {
+  width: 15%;
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  color: black;
+  background-color: transparent;
+}
+
+.underline-input::placeholder {
+  color: gray;
+  font-style: italic;
+  opacity: 1;
+}
+
+.offer-letter-box {
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+}

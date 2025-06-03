@@ -1,0 +1,11 @@
+npm init -y
+
+npm install express mysql2 dotenv cors body-parser
+
+project-folder/
+├── server.js
+├── db.js
+├── .env
+├── package.json
+
+

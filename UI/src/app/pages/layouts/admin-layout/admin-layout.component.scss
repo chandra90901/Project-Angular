@@ -1,0 +1,119 @@
+/* Header styles (mostly handled by Bootstrap) */
+.navbar .navbar-brand {
+  font-weight: bold;
+}
+
+/* Slide-In Menu */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #6A89A7;
+  transition: left 0.3s ease;
+  z-index: 1050;
+  padding: 15px;
+
+  &.open {
+    left: 0;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+
+    &:hover {
+      background-color: black;
+    }
+  }
+}
+
+/* Toggle Button */
+.menu-toggle {
+  background-color:transparent;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+
+ 
+}
+
+/* White Close Button */
+.close-btn {
+  color: white;
+  background-color: #6A89A7;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Main Content Area */
+.main-content {
+  margin-top: 2px; /* Adjust based on your header height */
+  padding: 10px;
+}
+
+/* Basic layout */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+// Footer SCSS styles
+body, html {
+  height: 100%; // Ensure the body takes the full height of the viewport
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 0; // Ensures the content area takes up the remaining space
+}
+
+.footer {
+  background-color:red;// Dark background color
+  color: black; 
+  padding: 100px; // Vertical padding
+  text-align: center; // Center the text
+ 
+}
+
+.footer-text {
+  font-size: 1rem; // Adjust font size if needed
+  line-height: 1.5;
+
+}
+
+  .footer p {
+    margin: 100px;
+  }
+  #profileDropdown {
+    background-color: white;
+    color: black !important;
+  }
+  .dropdown-menu {
+    max-width: 200px; /* Adjust width if necessary */
+    right: 0 !important; /* Aligns to the right */
+    left: auto !important; /* Prevents it from going outside */
+  }
+  .navbar {
+    position: relative !important;
+    z-index: 1050; /* Ensures it appears above other content */
+  }
+  .bg-dark{
+    background-color: #384959 !important;
+  }
+  .nav-link{
+    font-weight: 800;
+    font-family: monospace;
+  }
+  

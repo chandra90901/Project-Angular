@@ -1,0 +1,149 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <app-admin-layout pageHeader="Masters"></app-admin-layout>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+      <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Masters</h1>
+      </div>
+      <div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center mb-3">
+              <label for="ddlMasterGroup" class="me-2">Group</label>
+              <select [(ngModel)]="selectedMasterGroup" class="form-select form-select-sm" id="ddlMasterGroup"
+                aria-label="Default select example">
+                <option *ngFor="let mg of masterGroupData" [value]="mg.Id">{{mg.Data}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <button type="button" class="btn btn-primary btn-sm" (click)="open(popupMaster)">Add New Master</button>
+            <button type="button" class="btn btn-secondary btn-sm ms-2" (click)="open(popupMasterType)">Add New Master
+              Type</button>
+            <button type="button" class="btn btn-secondary btn-sm ms-2" (click)="open(popupMasterGroup)">Add New Master
+              Group</button>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex">
+          <div ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills flex-column" orientation="vertical">
+            <ng-container [ngbNavItem]="mt.Data" *ngFor="let mt of getMasterTypeByGroup(selectedMasterGroup)">
+              <button ngbNavLink class="btn btn-link">{{mt.Data}}</button>
+              <ng-template ngbNavContent>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">{{mt.Data}}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="getMasterDataByType(mt.Id).length>0">
+                    @for (es of getMasterDataByType(mt.Id); track es.name; let i = $index) {
+                    <tr>
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ es.Data }}</td>
+                      <td>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="deleteMasters(es)">X</button>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                  <tbody *ngIf="getMasterDataByType(mt.Id).length==0">
+                    No Data Present
+                  </tbody>
+                </table>
+              </ng-template>
+            </ng-container>
+          </div>
+          <div [ngbNavOutlet]="nav" class="ms-4"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<ng-template #popupMaster let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Masters</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label>Master GroupId</label>
+        <select class="form-select" [(ngModel)]="_master.GroupId" name="number" placeholder="Select Master Group">
+          <option *ngFor="let mt of masterGroupData" [value]="mt.Id">{{mt.Data}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label>Master TypeId</label>
+        <select class="form-select" [(ngModel)]="_master.TypeId" name="number" placeholder="Select Master Type">
+          <option *ngFor="let mt of getMasterTypeByGroup(_master.GroupId)" [value]="mt.Id">{{mt.Data}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <input class="form-control" type="text" placeholder="Enter Master Data" [(ngModel)]="_master.Data" name="data">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary cancel-button" (click)="modal.dismiss('Cancel click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveMaster()">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #popupMasterType let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add New Master Type</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <select class="form-select" [(ngModel)]="_masterType.GroupId" name="type" placeholder="Select Master Group">
+          <option *ngFor="let mt of masterGroupData" [value]="mt.Id">{{mt.Data}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <input class="form-control" type="text" placeholder="Enter Master Type" [(ngModel)]="_masterType.Data"
+          name="data">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary cancel-button" (click)="modal.dismiss('Cancel click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveMasterType()">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #popupMasterGroup let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add New Master Group</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+
+      <div class="mb-3">
+        <input class="form-control" type="text" placeholder="Enter Master Group" [(ngModel)]="_masterGroup.Data"
+          name="data">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary cancel-button" (click)="modal.dismiss('Cancel click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveMasterGroup()">Save</button>
+  </div>
+</ng-template>

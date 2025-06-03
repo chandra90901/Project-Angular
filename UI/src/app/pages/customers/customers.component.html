@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <div class="row">
+      
+      <!-- Sidebar -->
+      <app-admin-layout></app-admin-layout>
+  
+      <!-- Main Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"  style="width:100%">
+        <div class="d-flex justify-content-around align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">e-Crawler Customer's</h1>
+           
+           <select [(ngModel)]="EntityType" class="form-select form-select-sm" style="width: 200px">
+                                  id="ddlEntityType" aria-label="Default select example" (change)="FilterByEntityType()">
+                                  <option value="" disabled selected>Filter Entity-Type</option>
+                                    <option value="ALL">ALL</option>
+                                    <option value="One Person Company">One Person Company </option>
+                                    <option value="Private Limited company">Private Limited company </option>
+                                    <option value="Public Limited company">Public Limited company </option>
+                                    <option value="Section 8 company">Section 8 company </option>
+                                    <option value="Partnership firm">Partnership firm </option>
+                                    <option value="Limited Liability Partnership firm (LLP)">Limited Liability Partnership firm (LLP) </option>
+                                    <option value="Hindu Undivided Family (HUF)">Hindu Undivided Family (HUF) </option>
+                                    <option value="Liaison Office">Liaison Office </option>
+                                </select>
+                                <select [(ngModel)]="State" class="form-select form-select-sm" id="state" style="width:200px"
+                                   id="state" aria-label="Default select example" (change)="FilterState()">
+                                   <option value="" disabled selected>Filter by State</option>
+                                    <option value="All State">All State</option>
+                                    <option value="ap">Andhra Pradesh</option>
+                                    <option value="arunp">Arunachal Pradesh </option>
+                                    <option value="assam">Assam </option>
+                                    <option value="bihar">Bihar </option>
+                                    <option value="chhattisgarh">Chhattisgarh </option>
+                                    <option value="goa">Goa </option>
+                                    <option value="Gujarat">Gujarat </option>
+                                    <option value="Haryana">Haryana </option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh </option>
+                                    <option value="Jharkhand">Jharkhand </option>
+                                    <option value="Karnataka">Karnataka </option>
+                                    <option value="Kerala">Kerala </option>
+                                    <option value="mp">Madhya Pradesh </option>
+                                    <option value="Maharashtra">Maharashtra </option>
+                                    <option value="Manipur">Manipur </option>
+                                    <option value="Meghalaya">Meghalaya </option>
+                                    <option value="Mizoram">Mizoram </option>
+                                    <option value="Nagaland">Nagaland </option>
+                                    <option value="Punjab">Punjab </option>
+                                    <option value="Rajasthan">Rajasthan </option>
+                                    <option value="Sikkim">Sikkim </option>
+                                    <option value="Tamil Nadu">Tamil Nadu </option>
+                                    <option value="Telangana">Telangana </option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh </option>
+                                    <option value="Tripura">Tripura </option>
+                                    <option value="Uttarakhand">Uttarakhand </option>
+                                    <option value="West Bengal">West Bengal </option>
+                                </select>
+                    
+            <button type="button" class="btn btn-success btn-action" (click)="AddNewcustomerForm()">
+                <i class="fas fa-plus"></i> Add Customer
+            </button>
+        </div>
+        <div>
+            <table class="table table-striped" >
+                <thead style="background-color: #88b8f2;">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Customer Entity</th>
+                        <th scope="col">E-Mail</th>
+                        <th scope="col"> Mobile Number</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (cus of customers; track cus.CustomerName; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ cus.Title }} {{cus.CustomerName}}</td>
+                            <td>{{ cus.EntityType}}</td>
+                            <td>{{cus.Email}}</td>
+                            <td>{{cus.Mobile_Number}}</td>
+                            <td>
+                                <i *ngIf="cus.EmployeeName !='Yogesh'" class="bi bi-pencil-fill" (click)="EditCustomer(cus._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                                <i *ngIf="cus.EmployeeName !='Yogesh'" class="bi bi-trash3-fill" (click)="DeleteCustomer(cus._id)" style="cursor: pointer; color: red;font-size: 20px;"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+      </main>
+    </div>
+  </div>
+  <ng-template #leaveCustmerModal let-modal>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Deletion</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()">
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p>Are you sure you want to delete Employee</p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-danger" (click)="DeleteCustomer(modal)" >Delete</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </ng-template>

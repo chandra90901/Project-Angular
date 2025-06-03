@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="row">
+      
+      <!-- Sidebar -->
+      <app-admin-layout></app-admin-layout>
+  
+      <!-- Main Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">e-Crawler User</h1>
+            <button type="button" class="btn btn-success btn-action" (click)="AddNewUserForm()">
+                <i class="fas fa-plus"></i> Add User
+            </button>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead style="background-color: #88b8f2;">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">EmployeeId</th>
+                        <th scope="col">RoleId</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(us of users; track us.Username; let i = $index){
+                    <tr>
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ us.Username }}</td>
+                        <td>{{ us.Password }}</td>
+                        <td>{{ us.EmployeeId }}</td>
+                        <td>{{ us.RoleId }}</td>
+                        <td>{{ us.Status }}</td>
+                        
+                            <td>
+                                <i *ngIf="us.EmployeeName !='yogesh'" class="bi bi-pencil-fill" (click)="(us._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                                <i *ngIf="us.EmployeeName !='yogesh'" class="bi bi-trash3-fill" (click)="(us._id)" style="cursor: pointer; color: red;font-size: 20px;"></i>
+                              </td>
+
+                      </tr>
+                    }  
+                </tbody>
+            </table>
+        </div>
+      </main>
+    </div>
+  </div> 
+  <ng-template #userDeleteModal let-modal>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to delete this User.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+                    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+  

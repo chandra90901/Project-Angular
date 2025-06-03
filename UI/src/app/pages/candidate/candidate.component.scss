@@ -1,0 +1,19 @@
+button {
+    margin-right: 10px;
+
+    &.edit-btn {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    &.delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+}
+
+.table th {
+    background-color: #88b8f2;
+    color: white;
+
+}

@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <div class="row">
+      
+      <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+  
+      <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%;">
+
+            <div class="container mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5>e-Crawler User</h5>
+                    <div>
+                        <button type="button" class="btn btn-danger btn-action me-2" (click)="ClearUserForm()">
+                            <i class="fas fa-times"></i> Clear  
+                        </button>
+                        <button type="button" class="btn btn-primary btn-action me-2" (click)="ViewUser()">
+                            <i class="fas fa-plus"></i> View User List
+                        </button>
+                        <button type="button" class="btn btn-success btn-action" (click)="SaveUser()">
+                            <i class="fas fa-plus"></i> Save
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="txtuserName"
+                                    placeholder="Username" [(ngModel)]="user.Username">
+                                <label for="txtuserName">User Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="password" class="form-control form-control-sm" id="txtPassword"
+                                    placeholder="Password" [(ngModel)]="user.Password">
+                                <label for="txtPassword">Password</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">                        
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="user.RoleId" class="form-select form-select-sm" id="ddlRoleID" aria-label="Default select example">
+                                    <option *ngFor="let r of roles" [value]="r.roleName">{{ r.roleName }}</option>
+                                </select>
+                                <label for="txtroleId">Role Id</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="user.EmployeeId" class="form-select form-select-sm" id="ddlEmployeeID" aria-label="Default select example">
+                                    <option *ngFor="let e of employees" [value]="e.EmployeeName">{{ e.EmployeeName }}</option>
+                                </select>
+                                <label for="ddlEmployeeID">Employee</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">                        
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select [(ngModel)]="user.Status" class="form-select form-select-sm" id="ddlStatus" aria-label="Default select example">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                                <label for="ddlStatus"> Status</label>
+                            </div>
+                        </div>
+                    </div>                      
+                </div>
+            </div>    
+        </main>
+    </div>    
+</div>     

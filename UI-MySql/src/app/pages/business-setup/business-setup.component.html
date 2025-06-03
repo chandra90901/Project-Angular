@@ -1,0 +1,268 @@
+<div class="container-fluid">
+    <div class="row-col-mb-2">
+        <!-- Sidebar -->
+        <app-admin-layout pageHeader="Business Setup"></app-admin-layout>
+        <!-- Main Content -->
+        <!-- <main class="col px-0"> -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <!-- Navigation Bar -->
+                    <nav class="bt">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'Basic' }"
+                                    (click)="step = 'Basic'">Basic</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'Banking' }"
+                                    (click)="step = 'Banking'">Banking</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'User' }"
+                                    (click)="step = 'User'">User</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'KYC Docs' }"
+                                    (click)="step = 'KYC Docs'">KYC Docs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'Collect Payments' }"
+                                    (click)="step = 'Collect Payments'">Collect Payments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'Invoice' }"
+                                    (click)="step = 'Invoice'">Invoice</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="advancedDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Advanced
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="advancedDropdown">
+                                    <li><a class="dropdown-item" (click)="handleSubStep('Suboption1')">Suboption 1</a>
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="handleSubStep('Suboption2')">Suboption 2</a>
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="handleSubStep('Suboption3')">Suboption 3</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [ngClass]="{ active: step === 'API Docs' }"
+                                    (click)="step = 'API Docs'">API Docs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-7" [ngClass]="{ active: step === 'INR 0 Payable' }"
+                                    (click)="step = 'INR 0 Payable'">INR 0 Payable</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Content Sections -->
+                <div *ngIf="step === 'Basic'">
+                    <div class="row mb-8">
+                        <div class="col-md-9">
+                            <form action="rt">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="exampleInput" class="form-label"><small>Do you have
+                                                GSTIN?</small></label>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend-mb-3">
+                                                <select class="form-select form-select-sm" id="inputgstin"
+                                                    aria-label="Dropdown example">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="Small"
+                                                aria-describedby="inputGroup-sizing-sm" placeholder="GSTIN Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="exampleInputbn">Alternate Business Names(Replace
+                                                Alternate
+                                                Names)</label>
+                                            <input type="exampleInputbn" class="form-control form-control-sm"
+                                                id="exampleInputbn" placeholder="Alternate Business Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="ddlprivateCompany"><small>Private Limited
+                                                    Company</small></label>
+                                            <select class="form-select form-select-sm" id="ddlprivateCompany"
+                                                aria-label="Default select example">
+                                                <option value="privateCompany">name</option>
+                                                <option value="privateCompany2">name2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="txtmobileNumber"><small>Mobile Number *</small></label>
+                                            <input type="text" class="form-control form-control-sm" id="txtmobileNumber"
+                                                placeholder="Mobile Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-3">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="txtaddressLine1"><small>Address Line 1 *</small></label>
+                                            <input type="text" class="form-control form-control-sm" id="txtaddressLine1"
+                                                placeholder="Address Line">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="txtaddressLine2"><small>Address Line 2 *</small></label>
+                                            <input type="text" class="form-control form-control-sm" id="txtaddressLine2"
+                                                placeholder="Address Line">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label for="txtpinCode"><small>Pin Code *</small></label>
+                                            <input type="text" class="form-control form-control-sm" id="txtpinCode"
+                                                placeholder="Pin code">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label for="txtcity"><small>City *</small></label>
+                                            <input type="text" class="form-control form-control-sm" id="txtcity"
+                                                placeholder="City">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label for="ddlstate"><small>State *</small></label>
+                                            <select class="form-select form-select-sm" id="ddlstate"
+                                                aria-label="Default select example">
+                                                <option value="andhraPradesh">ANDHRA PRADESH</option>
+                                                <option value="karnataka">KARNATAKA</option>
+                                                <option value="tn">TAMILANADU</option>
+                                                <option value="KL">KERALA</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn btn-sm w-100 mt-3">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-3">
+                            <form action="ty">
+                                <div>
+                                    <img src="blueverse_logo-removebg-preview.png" alt="bs" class="mb-5 flex-shrink-0"
+                                        style="width: 100px !important; height: auto !important;">
+                                    <hr class="my-6">
+
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th scope="col"><small>Business Name <i
+                                                        class="bi bi-arrow-repeat"></i></small></th>
+                                        </tr>
+                                    </table>
+
+                                    <hr class="my-6">
+
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th scope="col"><small>Admin Emaile <i
+                                                        class="bi bi-pencil-square"></i></small> </th>
+                                        </tr>
+                                    </table>
+
+                                    <hr class="my-6">
+
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th scope="col"><small>GSTIN</small> </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row md-2">
+                        <div class="col-md-4">
+                            <span class="d-flex justify-content-between align-items-center"><small>GSTIN Or
+                                    Branches</small></span>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="nav">
+                                <li class="nav-item ms">
+                                    <a class="nav-link" [ngClass]="{ active: showGstinTable }"
+                                        (click)="showGstinTable = !showGstinTable">
+                                        Add GSTIN Or Branches
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div *ngIf="showGstinTable" class="mt-3">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Branches</th>
+                                            <th>Contacts</th>
+                                            <th>Place</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Add dynamic rows if needed -->
+                                        <tr>
+                                            <td>Branch 1 <button type="button" class="btn btn btn-sm">Active</button>
+                                            </td>
+                                            <td>1234567890</td>
+                                            <td>City Name</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Branch 2</td>
+                                            <td>0987654321</td>
+                                            <td>Another City</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="step === 'Banking'">
+                    Banking
+                </div>
+                <div *ngIf="step === 'User'">User
+                </div>
+                <div *ngIf="step === 'KYC Docs'">KYC Docs
+
+                </div>
+                <div *ngIf="step === 'Collect Payments'">
+                    Collect Payments
+                </div>
+                <div *ngIf="step === 'Invoice'">
+                    Invoice
+                </div>
+                <div *ngIf="step === 'Advanced'">Advanced
+
+                </div>
+                <div *ngIf="step === 'API Docs'">API Docs
+
+                </div>
+                <div *ngIf="step === 'INR 0 Payable'">INR 0 Payable
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

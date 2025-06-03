@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <app-admin-layout pageHeader="Report"></app-admin-layout>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10" style="width: 100%">
+      <div>
+        <table class="table table-striped">
+          <thead style="background-color: #88b8f2;">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Reports</th>
+              <th scope="col">Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportTypes; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.label }}</td>
+              <td>
+                <i class="bi bi-download" 
+                   style="cursor: pointer; font-size: 20px; color: green;"
+                   (click)="downloadPDF(item.type)">
+                </i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        
+        <div id="pdfContent" style="display: none;">
+          <h3>{{ pdfTitle }}</h3>
+          <table>
+            <tr *ngFor="let key of objectKeys(pdfData)">
+              <td><strong>{{ key }}</strong></td>
+              <td>{{ pdfData[key] }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

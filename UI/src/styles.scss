@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e8f1fa !important;
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  overflow-y: auto;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.nav .collapse .nav-link {
+  padding-left: 20px;
+}

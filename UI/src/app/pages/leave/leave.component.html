@@ -1,0 +1,242 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"  style="width:100%">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">e-Crawler Leave</h1>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary"
+                        [ngClass]="{'active': step === 'My Leaves'}" (click)="step='My Leaves'">My Leaves
+                    </button>
+                    <button type="button" class="btn btn-outline-primary"
+                        [ngClass]="{'active': step === 'Requested Leaves'}"
+                        (click)="step='Requested Leaves'">Requested Leaves
+                    </button>
+                </div>
+                <button type="button" class="btn btn-success btn-action" (click)="open(content)">
+                    <i class="fas fa-plus"></i> Add Leave
+                </button>
+            </div>
+            <div *ngIf="step === 'My Leaves'">  
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Leave Type</th>
+                            <th scope="col">From Date</th>
+                            <th scope="col">To Date</th>
+                            <th scope="col">Status</th>
+                           
+                            <th scope="col">Actions</th>
+                            <th scope="col">viwes</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (lv of leaves; track lv.EmployeeId; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{lv.LeaveType}}</td>
+                            <td>{{ lv.FromDate}}</td>
+                            <td>{{ lv.ToDate}}</td>
+                            <td>{{ lv.Status}}</td>
+                            
+                            <td>
+                                <i *ngIf="lv.Status !='Yogesh'" class="bi bi-pencil-fill" (click)="(lv._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                                <i *ngIf="lv.Status !='Yogesh'" class="bi bi-trash3-fill" (click)="(lv._id)" style="cursor: pointer; color: red;font-size: 20px;"></i>
+                            </td>
+                            <td>
+                                <i class="bi bi-eye-fill" (click)="ReviewLeave(leaveViewModal, lv)"  style="cursor: pointer; color: red;font-size: 20px;"></i>
+
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="step === 'Requested Leaves'">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Leave Type</th>
+                            <th scope="col">Employee Id</th>
+                            <th scope="col">From Date</th>
+                            <th scope="col">To Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"> ReviewLeave</th>
+                            <th scope="col"> viwes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (lv of reqleaves; track lv.EmployeeId; let i = $index) {
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{lv.LeaveType}}</td>
+                            <td>{{ lv.EmployeeId}}</td>
+                            <td>{{ lv.FromDate}}</td>
+                            <td>{{ lv.ToDate}}</td>
+                            <td>{{ lv.Status}}</td>
+                            <td>
+                                <i *ngIf="lv.Status == 'New'" class="bi bi-yelp" (click)="ReviewLeave(leaveReviewModal, lv)" style="cursor: pointer; color: red; font-size: 20px;" ></i>
+                              </td>
+                              
+                            <td>
+                                <i class="bi bi-eye-fill" (click)="ReviewLeave(leaveViewModal, lv)" style="cursor: pointer; color: red; font-size: 20px;"></i>
+
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal Template -->
+<ng-template #content let-modal>
+   <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header ">
+                <h5 class="modal-title">
+                    {{ isEditMode ? 'Edit Employee Leave' : 'Add Employee Leave' }}
+                </h5>
+                <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="ddlLeaveType" class="form-label">Leave Type</label>
+                        <select [(ngModel)]="leave.LeaveType" class="form-select" id="ddlLeaveType">
+                            <!-- <option value="Casual">Casual</option> -->
+                            <option *ngFor="let es of leaveType" [value]="es.Data">{{ es.Data}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="txtDate" class="form-label">From Date</label>
+                        <input type="date" class="form-control" [(ngModel)]="leave.FromDate" id="txtDate" (change)="calculateTotalDays()">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="txtFromDateHalfDay" class="form-label">From Date Half Day</label>
+                        <input type="checkbox"  [(ngModel)]="leave.FromDateHalfDay" id="txtFromDateHalfDay" style="margin-left: 10px;" (change)="calculateTotalDays()">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="txtToDate" class="form-label">To Date</label>
+                        <input type="date" class="form-control" [(ngModel)]="leave.ToDate" id="txtToDate" (change)="calculateTotalDays()">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="txtToDateHalfDay" class="form-label">To Date Half Day</label>
+                        <input type="checkbox"  [(ngModel)]="leave.ToDateHalfDay" id="txtToDateHalfDay" style="margin-left: 10px;" (change)="calculateTotalDays()">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="txt" class="form-label">Total Days :</label>
+                        <input type="text" class="form-control" [value]="leave.calculateTotalDays" disabled>
+                    </div>
+                    <div class="col-md-12 width-30px">
+                        <label for="txtReason" class="form-label">Reason</label>
+                        <input type="text" class="form-control" [(ngModel)]="leave.Reason" id="txtReason">
+                    </div>
+                   </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+            </div>
+    </div>
+</ng-template>
+
+<!-- model Template for Review Leave -->
+<ng-template #leaveReviewModal let-modal>
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+             <div class="modal-header ">
+                 <h5 class="modal-title">
+                    {{ isReviewMode ? 'Review Employee Leave' : 'Review Employee Leave' }}
+                 </h5>
+                 <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+             </div>
+             <div class="modal-body">
+                 <div class="row g-3">
+                    <div class="modal-body">
+                        <p><strong>Employee ID:</strong> {{ leave?.EmployeeId }}</p>
+                        <p><strong>Leave Type:</strong> {{ leave?.LeaveType }}</p>
+                        <p><strong>From:</strong> {{ leave?.FromDate }} ({{ leave?.FromDateHalfDay ? 'Half Day' : 'Full Day' }})</p>
+                        <p><strong>To:</strong> {{ leave?.ToDate }} ({{ leave?.ToDateHalfDay ? 'Half Day' : 'Full Day' }})</p>
+                        <p><strong>Reason:</strong> {{ leave?.Reason }}</p>
+                    
+                        <!-- Input for Approve/Reject Reason -->
+                        <div class="form-group">
+                          <label>Enter Reason:</label>
+                          <textarea class="form-control" [(ngModel)]="review"></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-success" (click)="approveLeave()">Approve</button>
+                        <button class="btn btn-danger" (click)="rejectLeave()">Reject</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+    </ng-template>
+
+    <ng-template #leaveViewModal let-modal>
+        <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+                 <div class="modal-header ">
+                     <h5 class="modal-title">
+                        View Employee Leave
+                     </h5>
+                     <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div class="row g-3">
+                        <div class="modal-body">
+                            <p><strong>Employee ID:</strong> {{ leave?.EmployeeId }}</p>
+                            <p><strong>Leave Type:</strong> {{ leave?.LeaveType }}</p>
+                            <p><strong>From:</strong> {{ leave?.FromDate | date }} ({{ leave?.FromDateHalfDay ? 'Half Day' : 'Full Day' }})</p>
+                            <p><strong>To:</strong> {{ leave?.ToDate | date }} ({{ leave?.ToDateHalfDay ? 'Half Day' : 'Full Day' }})</p>
+                            <p><strong>Reason:</strong> {{ leave?.Reason }}</p>
+                            <p><strong>Status:</strong> {{ leave?.Status }}</p>
+                            <p *ngIf="leave?.Status=='Approved'"><strong>Approved By:</strong> {{ leave?.ApprovedBy }}</p>
+                            <p *ngIf="leave?.Status=='Approved'"><strong>Approved Date:</strong> {{ leave?.ApprovedDate | date}}</p>
+                            <p *ngIf="leave?.Status=='Approved'"><strong>Approved Reason:</strong> {{ leave?.ApprovedReason }}</p>
+                            <p *ngIf="leave?.Status=='Rejected'"><strong>Rejected By:</strong> {{ leave?.RejectedBy }}</p>
+                            <p *ngIf="leave?.Status=='Rejected'"><strong>Rejected Date:</strong> {{ leave?.RejectedDate | date}}</p>
+                            <p *ngIf="leave?.Status=='Rejected'"><strong>Rejected Reason:</strong> {{ leave?.RejectedReason }}</p>
+                          </div>
+                          <!-- <div class="modal-footer">
+                            <button class="btn btn-success" (click)="approveLeave()">Approve</button>
+                            <button class="btn btn-danger" (click)="rejectLeave()">Reject</button>
+                          </div> -->
+                        </div>
+                    </div>
+                </div>
+        </ng-template>
+        <ng-template #leaveDeleteModal let-modal>
+            <div class="modal fade show d-block" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p>Are you sure you want to delete this leave request?</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+  
+  
+        
+              
+

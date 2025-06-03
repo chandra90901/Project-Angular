@@ -1,0 +1,112 @@
+npx knex migrate:make create_users_table
+
+npx knex migrate:latest 
+npm run migrate
+
+1. Rolling Back the Last Migration
+    npx knex migrate:rollback
+    npm run rollback  
+
+2. Rolling Back to a Specific Migration
+    npx knex migrate:rollback --step=2
+
+3. Resetting All Migrations   
+    npx knex migrate:rollback --all
+
+4. Checking Migration Status
+    npx knex migrate:status
+
+
+MIGRATION SCRIPT TO CHANGE DATATYPE
+    exports.up = function(knex) {
+    return knex.schema.alterTable('your_table', function(table) {
+        table.integer('your_column').alter(); // Change to the desired type
+    });
+    };
+
+    exports.down = function(knex) {
+    return knex.schema.alterTable('your_table', function(table) {
+        table.string('your_column').alter(); // Revert to the original type
+    });
+    };
+
+MIGRATION SCRIPT TO ADD DATA
+    exports.up = function(knex) {
+    return knex('your_table').insert([
+        { id: 1, name: 'Alice', age: 25 },
+        { id: 2, name: 'Bob', age: 30 }
+    ]);
+    };
+
+    exports.down = function(knex) {
+    return knex('your_table')
+        .whereIn('id', [1, 2]) // Delete inserted records
+        .del();
+    };
+
+MIGRATION FILE TO DELETE DATA
+    exports.up = function(knex) {
+    return knex('your_table')
+        .where('name', 'Alice')
+        .orWhere('name', 'Bob')
+        .del();
+    };
+
+    exports.down = function(knex) {
+    return knex('your_table').insert([
+        { id: 1, name: 'Alice', age: 25 },
+        { id: 2, name: 'Bob', age: 30 }
+    ]);
+    };
+
+MIGRATION FILE TO UPDATE THE DATA
+    exports.up = function(knex) {
+    return knex('your_table')
+        .where('id', 1)
+        .update({ name: 'Updated Name', age: 28 });
+    };
+
+    exports.down = function(knex) {
+    return knex('your_table')
+        .where('id', 1)
+        .update({ name: 'Alice', age: 25 }); // Revert to the original values
+    };
+
+MIGRATION FILE TO CREATE STORED PROCEDURE
+    exports.up = function(knex) {
+    return knex.raw(`
+        CREATE PROCEDURE GetUsersByAge(IN user_age INT)
+        BEGIN
+        SELECT * FROM users WHERE age = user_age;
+        END;
+    `);
+    };
+
+    exports.down = function(knex) {
+    return knex.raw(`DROP PROCEDURE IF EXISTS GetUsersByAge;`);
+    };
+
+MIGRATION FILE TO CHANGE NAME 
+npx knex migrate:make rename_columns_in_app_settings
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.up = function(knex) {
+    return knex.schema.alterTable('AppSettings', function(table) {
+        table.renameColumn('CompanyName', 'Company_Title');
+        table.renameColumn('CopyrightMessage', 'Copyright_Text');
+    });
+};
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.down = function(knex) {
+    return knex.schema.alterTable('AppSettings', function(table) {
+        table.renameColumn('Company_Title', 'CompanyName');
+        table.renameColumn('Copyright_Text', 'CopyrightMessage');
+    });
+};

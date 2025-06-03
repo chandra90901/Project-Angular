@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-admin-layout pageHeader="Profile"></app-admin-layout>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Employee Profile</title>
+        </head>
+        <body>
+            <div  *ngIf="isProfileVisible" class="container mt-4">
+              <div class="row align-items-center profile-header position-relative">
+                    <div class="col-md-6 d-flex align-items-center border-end pe-3 me-5">
+                    <img src="https://picsum.photos/200/300" alt="Profile Image" class="profile-img" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 50px;">
+                    <div>
+                        <h4>{{profileData.EmployeeName}}</h4>
+                        <p>Web Designer</p>
+                        <p class="text-muted">UI/UX Designer</p>
+                        <p>Employee ID: {{profileData.EmployeeId}}</p>
+                        <p>Date of Join:{{profileData.DateOfJoining}}</p>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row g-3">
+                            <div class="col-md-6 me-5"> 
+                            <p><strong>Phone:</strong>{{profileData.OfficeMobileNumber}} </p>
+                            <p><strong>Email:</strong>{{profileData.OfficeEmail}}</p>
+                            <p><strong>Birthday:</strong>{{profileData.DateOfBirth  | date: 'MMM dd, yyyy' }}</p>
+                            <p><strong>Address:</strong> 1861 Bayonne Ave, Manchester Township, NJ, 08759</p>
+                            </div>
+                            <div class="col-md-4">
+                            <p><strong>Gender:</strong>{{profileData.Gender}}
+                                <!-- <option *ngFor="let gr of genderMaster" [value]="gr.Data">{{gr.Data}}</option></p> -->
+                                <p><strong>Reports To:</strong> {{ profileData.ReportingToMgr }}</p>
+                            </div>
+                    </div>
+                    </div>
+              </div>
+                
+                <!-- <ul class="nav nav-tabs mt-3"> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link active" href="#profile" data-bs-toggle="tab">Profile</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#projects" data-bs-toggle="tab">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#bank" data-bs-toggle="tab">Bank & Statutory (Admin Only)</a>
+                    </li> -->
+                <!-- </ul> -->
+                
+                <div class="tab-content mt-3">
+                    <div class="tab-pane fade show active" id="profile">
+                        <div class="row">
+                            <div class="col-md-6 d-flex">
+                                <div class="card p-4 w-100 h-100">
+                                    <h5>Personal Information</h5>
+                                    <p><strong>Personal No:</strong>{{profileData.PersonalMobileNumber}}</p>
+                                    <p><strong>Nationality:</strong> Indian</p>
+                                    <p><strong>Religion:</strong> Christian</p>
+                                    <p><strong>Marital Status:</strong> Married</p>
+                                    <p><strong>Number of Children:</strong> 2</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex">
+                                <div class="card p-4 w-100 h-100">
+                                    <h5>Bank Information</h5>
+                                    <p><strong>Bank:</strong>{{profileData.BankId}}</p>
+                                    <p><strong>Account No:</strong> {{profileData.BankAccountNumber}}</p>
+                                    <p><strong>IFSC Code:</strong> {{profileData.BankIfscCode}}</p>
+                                    <p><strong>PAN No:</strong> {{profileData.PAN}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show active mt-2" id="profile">
+                        <div class="row">
+                            <div class="col-md-6 d-flex">
+                                <div class="card p-2 w-100 h-100">
+                                    <h5>Emergency Contact</h5>
+                                    <p><strong>Primary:</strong> Father - {{profileData.FathersName}}</p>
+                                    <p><strong>Secondary:</strong> Brother - 9876543210</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex">
+                                <div class="card p-2 w-100 h-100">
+                                    <h5>Family Information</h5>
+                                    <p><strong>Name:</strong> ENter</p>
+                                    <p><strong>Relationship:</strong> Father</p>
+                                    <p><strong>Date of Birth:</strong> {{profileData.DateOfBirth  | date: 'MMM dd, yyyy' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+</div>

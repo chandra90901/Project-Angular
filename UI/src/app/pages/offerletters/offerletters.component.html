@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <app-admin-layout></app-admin-layout>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width: 100%">
+      <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">e-Crawler OfferLetter</h1>
+        <button type="button" class="btn btn-success btn-action" (click)="AddNewOfferletterForm()">
+          <i class="fas fa-plus"></i> Add OfferLetter
+        </button>
+      </div>
+
+      <div>
+        <table class="table table-striped">
+          <thead style="background-color: #88b8f2;">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Date</th>
+              <th scope="col">Candidate Name</th>
+              <th scope="col">Job Title</th>
+              <th scope="col">Department</th>
+           
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let off of offerletters; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ off.Date }}</td>
+              <td>{{ off.CandidateName }}</td>
+              <td>{{ off.JobTitle }}</td>
+              <td>{{ off.Department }}</td>
+            
+              <td>
+                <!-- Edit Button -->
+                <i *ngIf="off.CandidateName !== 'Yogesh'" class="bi bi-pencil-fill" 
+                   (click)="EditOfferletter(off._id)" 
+                   style="cursor: pointer; font-size: 20px; margin-right: 10px;"></i>
+              </td>
+              <td>
+                <!-- Delete Button -->
+                <i *ngIf="off.CandidateName !== 'Yogesh'" class="bi bi-trash3-fill" 
+                   (click)="openDeleteModal(leaveEmployeeModal, off._id)" 
+                   style="cursor: pointer; color: red; font-size: 20px;"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #leaveEmployeeModal let-modal>
+  <div class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Deletion</h5>
+          <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p>Are you sure you want to delete this OfferLetter?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+          <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

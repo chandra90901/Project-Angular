@@ -1,0 +1,63 @@
+<div class="page-container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <!-- <button class="btn menu-toggle custom-btn" (click)="toggleMenu()">
+        
+      </button> -->
+      <i style="color: white;font-size:35px;margin-right: 30px;" class="bi bi-list" (click)="toggleMenu()"></i>
+      <a class="navbar-brand" href="#">Blueverse Systems</a>
+      
+    <!-- Profile Dropdown -->
+<div class="dropdown ms-auto" >  
+  <span class="d-none d-md-inline" style="color:white;font-size: 20px;margin-right: 10px;">WELCOME {{ userDetail.Username | uppercase}}</span>
+  <i class="bi bi-person-circle" style="color:white;font-size: 20px;margin-right: 10px"></i>
+  <i class="bi bi-power" (click)="logout()" style="color:white;font-size: 20px;margin-right: 10px"></i>
+  
+</div>
+
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="slide-menu" [class.open]="isOpen">
+      <button type="button" class="close-btn" aria-label="Close" (click)="toggleMenu()">  
+        <i style="color: white;font-size: 40px;" class="bi bi-arrow-bar-left"></i>
+      </button>
+      <br /><br />
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/employees">Employees</a></li>
+        <li class="nav-item"><a class="nav-link" href="/employee-form">Add Employee</a></li>
+        <li class="nav-item"><a class="nav-link" href="/offerletters">Offerletters</a></li>
+        <li class="nav-item"><a class="nav-link" href="/offerletter-form">Add Offerletter</a></li>
+        <li class="nav-item"><a class="nav-link" href="/customers">Customers</a></li>
+        <li class="nav-item"><a class="nav-link" href="/customer-form">Add Customer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/masters">Masters</a></li>
+        <li class="nav-item"><a class="nav-link" href="/role">Role</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/timesheet">Timesheet</a></li>
+        <li class="nav-item"><a class="nav-link" href="/application">Application</a></li>
+        <li class="nav-item"><a class="nav-link" href="/leave">Leave</a></li>
+        <li class="nav-item"><a class="nav-link" href="/attendance">Attendance</a></li>
+        <li class="nav-item"><a class="nav-link" href="/invoice">Invoices</a></li>
+        <li class="nav-item"><a class="nav-link" href="/reports">Reports</a></li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="toggleSettingsMenu()" role="button">Settings</a>
+          <ul [ngClass]="{ 'd-none': !isSettingsMenuOpen }" class="submenu">
+            <li class="nav-item"><a class="nav-link" href="/settings/business-setup">Business Setup</a></li>
+            <li class="nav-item"><a class="nav-link" href="/user">User</a></li>
+            <li class="nav-item"><a class="nav-link" href="/userform">Add User</a></li>
+            <li class="nav-item"><a class="nav-link" href="/candidate">Candidate</a></li>
+            <li class="nav-item"><a class="nav-link" href="/candidate-form">Add Candidate</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
+        </ul>
+    </div>
+  </main>
+</div>
+
+<footer class="bg-dark text-white text-center py-3 fixed-bottom">
+  <div class="container">
+    <span>&copy; Copyright 2022 Blueverse Systems. All Rights Reserved.</span>
+  </div>
+</footer>

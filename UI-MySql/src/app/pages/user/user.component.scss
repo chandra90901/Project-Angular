@@ -1,0 +1,31 @@
+.table th {
+    background-color: white;
+    color: black;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.page-item.disabled .page-link {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.page-item .page-link.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.page-item .page-link {
+    cursor: pointer;
+}
+
+.container-fluid {
+    padding: 0px;
+}
+
+.grid-wrapper {
+    padding: 20px;
+}

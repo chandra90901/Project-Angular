@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-admin-layout pageHeader="View Offer Letter"></app-admin-layout>
+
+        <div class="container d-flex justify-content-center mt-4">
+            <div class="offer-letter-box p-4 border rounded shadow bg-white">
+                <div class="text-end mb-3">
+                    <button class="btn btn-primary me-2" (click)="ViewOfferletters()">
+                        <i class="fas fa-eye"></i> View List
+                    </button>
+                    <button class="btn btn-secondary me-2" (click)="DownloadOfferLetter()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="btn btn-info text-white" (click)="SendOfferLetterEmail()">
+                        <i class="fas fa-envelope"></i> Email
+                    </button>
+                </div>
+                <h2 class="text-center mb-4">Offer Letter</h2>
+
+            <p class="text-end"><strong>Date:</strong> 
+               <u> {{offerletter.Date | date}}</u>
+            </p>
+
+            <p><strong>To,</strong><br>
+                <u>{{offerletter.ReportingManager }} </u><br>
+            </p>
+
+            <p><strong>Subject:</strong> Offer of Employment</p>
+
+            <p> <u>{{offerletter.CandidateName }}</u>,</p>
+
+            <p>We are pleased to extend an offer of employment to you for the role of  
+                <u>{{offerletter.JobTitle }}</u>
+                in the <u>{{offerletter.Department }}</u> department at our esteemed organization.
+            </p>
+
+            <p>Our company is dedicated to fostering a positive and innovative work environment, where each team member is valued for their contributions. 
+               We believe that your skills, experience, and passion align with our company’s goals and vision.</p>
+
+            <p>Your employment will be classified as 
+            <u>{{offerletter.EmploymentType}}</u>, and you will be based at our  
+            <u>{{offerletter.WorkLocation}}</u> office.
+            </p>
+
+            <p>As a part of our onboarding process, you will undergo a probationary period of  
+            <u>{{offerletter.ProbationPeriod}} Months</u>
+                <!-- <select [(ngModel)]="offerletter.ProbationPeriod" class="form-select d-inline w-auto" >
+
+                    <option value="">Select</option>
+                    <option value="3 Months">3 Months</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="9 Months">9 Months</option>
+                </select> -->
+                . During this time, we will provide you with the necessary training and guidance to ensure a smooth transition into your role.</p>
+
+            <p>We kindly request that you confirm your acceptance of this offer by  <u>{{offerletter.Deadline | date}}</u>
+                <!-- <input type="date" [(ngModel)]="offerletter.Deadline" class="form-control d-inline w-auto"> -->
+                . Your official start date will be determined upon acceptance.</p>
+
+            <p>At our organization, we strive to create a work culture that promotes innovation, collaboration, and continuous learning. 
+               We are confident that you will make a valuable contribution to our team and grow professionally with us.</p>
+
+            <p>If you have any questions regarding the terms of this offer or need further clarifications, please feel free to reach out to our HR department. 
+               We look forward to working with you and witnessing your success within our company.</p>
+
+            <p>Once again, congratulations on your selection! We are excited to welcome you to our team.</p>
+
+            <p>Sincerely,</p>
+
+            <p><strong>HR Department</strong><br> [Company Name]</p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>

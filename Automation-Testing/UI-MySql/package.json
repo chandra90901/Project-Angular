@@ -1,0 +1,23 @@
+{
+  "name": "e-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yogeshrajput335/e-crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yogeshrajput335/e-crawler/issues"
+  },
+  "homepage": "https://github.com/yogeshrajput335/e-crawler#readme",
+  "description": "",
+  "dependencies": {
+    "cypress": "^14.4.0"
+  }
+}

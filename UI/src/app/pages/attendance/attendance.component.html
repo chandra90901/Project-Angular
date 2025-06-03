@@ -1,0 +1,217 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <app-admin-layout></app-admin-layout>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="width:100%">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">e-Crawler Attendance</h1>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Attendance Tabs">
+                    <button type="button" class="btn btn-outline-primary" 
+                        [ngClass]="{'active': step === 'My Attendances'}" 
+                        (click)="step='My Attendances'">My Attendances</button>
+                    <button type="button" class="btn btn-outline-primary" 
+                        [ngClass]="{'active': step === 'Requested Attendances'}" 
+                        (click)="step='Requested Attendances'">Requested Attendances</button>
+                </div>
+                <button type="button" class="btn btn-success btn-action" (click)="open(content)">
+                    <i class="fas fa-plus"></i> Add Attendance
+                </button>
+            </div>
+
+            <div *ngIf="step === 'My Attendances'">
+                        <table class="table table-striped">
+                            <thead style="background-color: #88b8f2;">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col ">Date</th>
+                                    <th scope="col">In Time</th>
+                                    <th scope="col">Out Time</th>
+                                    <th scope="col">Status</th>
+                                   <th scope="col"></th>
+                                    <th scope="col">Actions</th>
+                                    <th scope="col">View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let at of attendances; let i = index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ at.Date }}</td>
+                                    <td>{{ at.InTime }}</td>
+                                    <td>{{ at.OutTime }}</td>
+                                    <td>{{ at.Status }}</td>
+                                    <td>
+                                        <td>
+                                            <i *ngIf="at.Status !='Yogesh'" class="bi bi-pencil-fill" (click)="open(content, at._id)" style="cursor: pointer;font-size: 20px;margin-right: 10px;"></i>
+                                            <i *ngIf="at.Status !='Yogesh'" class="bi bi-trash3-fill" (click)="(at._id)"style="cursor: pointer; color: red;font-size: 20px;"></i>
+                                          </td>
+                                    
+                                    <td>
+                                        <i class="bi bi-eye-fill" 
+                                           (click)="ReviewAttendance(attendanceViewModal, at)" 
+                                           style="cursor: pointer; color: red; font-size: 20px;"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        
+
+            <div *ngIf="step === 'Requested Attendances'">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">In Time</th>
+                            <th scope="col">Out Time</th>
+                            <th scope="col">Status</th>
+                           <th scope="col"> Review/th>
+                            <th scope="col">View</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let at of reqattendances; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ at.EmployeeId }}</td>
+                            <td>{{ at.Date }}</td>
+                            <td>{{ at.InTime }}</td>
+                            <td>{{ at.OutTime }}</td>
+                            <td>{{ at.Status }}</td>
+                            <td>
+                                <i *ngIf="at.Status === 'New'" class="bi bi-yelp" 
+                                (click)="ReviewAttendance(attendanceReviewModal, at)" 
+                                style="cursor: pointer; color: red;font-size: 20px;"></i>
+                              </td>
+                                   <td>
+                                   <i class="bi bi-eye-fill" (click)="ReviewAttendance(attendanceViewModal, at)" 
+                                   style="cursor: pointer; color: red;font-size: 20px;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal Templates -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ isEditMode ? 'Edit Attendance' : 'Add Attendance' }}</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" [(ngModel)]="attendance.Date">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">In Time</label>
+                <input type="time" class="form-control" [(ngModel)]="attendance.InTime">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Out Time</label>
+                <input type="time" class="form-control" [(ngModel)]="attendance.OutTime">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" [(ngModel)]="attendance.Status">
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+</ng-template>
+<ng-template #attendanceReviewModal let-modal>
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+             <div class="modal-header ">
+                 <h5 class="modal-title">
+                    {{ isReviewMode ? 'Review Employee Attendance' : 'Review Employee Attendance' }}
+                 </h5>
+                 <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+             </div>
+        <div class="modal-body">
+            <div class="row g-3">
+                <div class="modal-body">
+                    <p><strong>Employee ID:</strong> {{ attendance?.EmployeeId }}</p>
+                    <p><strong>Date:</strong> {{ attendance?.Date | date }}</p>
+                    <p><strong>In Time:</strong> {{ attendance?.InTime }}</p>
+                    <p><strong>Out Time:</strong> {{ attendance?.OutTime }}</p>
+                    <p><strong>Reason:</strong> {{ attendance?.Reason }}</p>
+                    <p><strong>Status:</strong> {{ attendance?.Status }}</p>
+                    
+                    <!-- Input for Approve/Reject Reason -->
+                    <div class="form-group">
+                        <label>Enter Reason:</label>
+                        <textarea class="form-control" [(ngModel)]="review"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" (click)="approveAttendance()">Approve</button>
+                    <button class="btn btn-danger" (click)="rejectAttendance()">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #attendanceViewModal let-modal>
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                View Employee Attendance
+            </h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row g-3">
+                <div class="modal-body">
+                    <p><strong>Employee ID:</strong> {{ attendance?.EmployeeId }}</p>
+                    <p><strong>Date:</strong> {{ attendance?.Date | date }}</p>
+                    <p><strong>In Time:</strong> {{ attendance?.InTime }}</p>
+                    <p><strong>Out Time:</strong> {{ attendance?.OutTime }}</p>
+                    <p><strong>Reason:</strong> {{ attendance?.Reason }}</p>
+                    <p><strong>Status:</strong> {{ attendance?.Status }}</p>
+                    <p *ngIf="attendance?.Status=='Approved'"><strong>Approved By:</strong> {{ attendance?.ApprovedBy }}</p>
+                    <p *ngIf="attendance?.Status=='Approved'"><strong>Approved Date:</strong> {{ attendance?.ApprovedDate | date }}</p>
+                    <p *ngIf="attendance?.Status=='Approved'"><strong>Approved Reason:</strong> {{ attendance?.ApprovedReason }}</p>
+                    <p *ngIf="attendance?.Status=='Rejected'"><strong>Rejected By:</strong> {{ attendance?.RejectedBy }}</p>
+                    <p *ngIf="attendance?.Status=='Rejected'"><strong>Rejected Date:</strong> {{ attendance?.RejectedDate | date }}</p>
+                    <p *ngIf="attendance?.Status=='Rejected'"><strong>Rejected Reason:</strong> {{ attendance?.RejectedReason }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #attendanceDeleteModal let-modal>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to delete this attendance record?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Delete</button>
+                    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+

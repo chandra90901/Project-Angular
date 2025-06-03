@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <div class="row">
+    
+    <!-- Sidebar -->
+    <app-admin-layout pageHeader="Dashboard"></app-admin-layout>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+     
+      <div class="container mt-3">
+        <!-- Dashboard Cards -->
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card text-center bg-primary text-white mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">1,245</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center bg-success text-white mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Sales</h5>
+                <p class="card-text">$23,456</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center bg-warning text-dark mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Orders</h5>
+                <p class="card-text">342</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center bg-danger text-white mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Issues</h5>
+                <p class="card-text">12</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    
+        <!-- Notifications Section -->
+        <h3 class="mb-3" id="notifications">Notifications</h3>
+        <div class="card mb-4">
+          <div class="card-header">Recent Holidays</div>
+          <div class="card-body">
+            <select class="form-select" [(ngModel)]="selectedYear" (change)="filterByYear()" style="width: 120px;">
+              <option *ngFor="let year of [2023, 2024, 2025, 2026, 2027]" [value]="year">{{ year }}</option>
+            </select>            
+            <ul class="list-group mt-3">
+              <li class="list-group-item" *ngFor="let h of holidays">
+                <strong>{{ h.HolidayName }}</strong> - {{ h.Date | date:'dd MMM yyyy' }}
+              </li>
+            </ul>                    
+          </div>
+        </div>
+    
+
+        <!-- Reports Section -->
+        <h3 class="mb-3" id="reports">Reports</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">Monthly Sales</div>
+              <div class="card-body">
+                <canvas baseChart
+                        [data]="barChartData"
+                        [options]="barChartOptions"
+                        [plugins]="barChartPlugins"
+                        [legend]="barChartLegend"
+                        [type]="'bar'">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">User Growth</div>
+              <div class="card-body">
+                <div style="display: block;">
+                  <canvas baseChart width="400" height="200"
+                    [type]="'line'"
+                    [data]="lineChartData"
+                    [options]="lineChartOptions"
+                    [legend]="lineChartLegend">
+                  </canvas>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
